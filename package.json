@@ -1,0 +1,36 @@
+{
+  "name": "phaser-mvc",
+  "version": "0.0.1",
+  "description": "MVC for phaser",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "karma start",
+    "lint": "tslint --force --project tsconfig.json -t verbose -c tslint.json 'src/**/*.ts'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/TLmaK0/phaser-mvc.git"
+  },
+  "keywords": [
+    "Phaser",
+    "MVC"
+  ],
+  "author": "Hugo Freire <hugofreiregil@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TLmaK0/phaser-mvc/issues"
+  },
+  "homepage": "https://github.com/TLmaK0/phaser-mvc#readme",
+  "devDependencies": {
+    "expose-loader": "^0.7.3",
+    "phaser-ce": "^2.9.1",
+    "pixi": "^0.3.1",
+    "ts-loader": "^2.3.7",
+    "tslint": "^5.7.0",
+    "tslint-eslint-rules": "^4.1.1",
+    "tslint-microsoft-contrib": "^5.0.1",
+    "typescript": "^2.5.3",
+    "webpack": "^3.7.1"
+  }
+}
