@@ -2,7 +2,8 @@
   "name": "phaser-mvc",
   "version": "0.0.1",
   "description": "MVC for phaser",
-  "main": "index.js",
+  "main": "lib/phaser-mvc.min",
+  "typings": "lib/phaser-mvc.d.ts",
   "scripts": {
     "build": "webpack",
     "test": "karma start",
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/TLmaK0/phaser-mvc#readme",
   "devDependencies": {
+    "dtsbundler-webpack-plugin": "^1.0.0",
     "expose-loader": "^0.7.3",
     "phaser-ce": "^2.9.1",
     "pixi": "^0.3.1",

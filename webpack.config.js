@@ -1,6 +1,7 @@
 const path = require('path');
 const phaserModulePath = path.join(__dirname, '/node_modules/phaser-ce/');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const DtsBundlerPlugin = require('dtsbundler-webpack-plugin');
 
 module.exports = {
   externals: {
@@ -11,7 +12,7 @@ module.exports = {
   },
   entry: path.resolve(__dirname, 'src/bootstrap.ts'),
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'lib'),
     filename: 'phaser-mvc.min.js'
   },
   resolve: {
@@ -33,6 +34,9 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   plugins: [
-    new UglifyJSPlugin()
+    new UglifyJSPlugin(),
+    new DtsBundlerPlugin({
+        out:'./phaser-mvc.d.ts',
+    })
   ]
 };

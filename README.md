@@ -24,7 +24,7 @@ window.onload = () => {
 import { Controller } from 'phaser-mvc/controller';
 import { IActionParams } from 'phaser-mvc/i_action_params';
 import { IViewMap } from 'phaser-mvc/view_map';
-import { FrameView } from 'phaser-mvc/frame_view';
+import { FrameView } from 'views/frame_view';
 export class FrameController extends Controller {
   constructor() {
     super();
@@ -46,7 +46,7 @@ export class FrameController extends Controller {
 ```
 
 ```javascript
-// view/frame_view.ts
+// views/frame_view.ts
 import { View } from 'phaser-mvc/view';
 import { ViewComponentAdder } from 'phaser-mvc/view_component_adder';
 import { Dialog } from './components/dialog';
