@@ -23,13 +23,13 @@
     "url": "https://github.com/TLmaK0/phaser-mvc/issues"
   },
   "homepage": "https://github.com/TLmaK0/phaser-mvc#readme",
+  "dependencies": {
+    "phaser-ce": "^2.9.1",
+    "pixi": "^0.3.1"
+  },
   "devDependencies": {
     "dts-bundle": "^0.7.3",
-    "dtsbundler-webpack-plugin": "^1.0.0",
     "expose-loader": "^0.7.3",
-    "phaser-ce": "^2.9.1",
-    "pixi": "^0.3.1",
-    "raw-loader": "^0.5.1",
     "ts-loader": "^2.3.7",
     "tslint": "^5.7.0",
     "tslint-eslint-rules": "^4.1.1",

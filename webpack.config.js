@@ -48,8 +48,8 @@ DtsBundlePlugin.prototype.apply = function (compiler) {
 
     dts.bundle({
       name: 'phaser-mvc',
-      main: 'lib/**/*.d.ts',
-      out: 'index.d.ts',
+      main: 'lib/typings/**/*.d.ts',
+      out: '../index.d.ts',
       removeSource: true,
       outputAsModuleFolder: true // to use npm in-package typings
     });

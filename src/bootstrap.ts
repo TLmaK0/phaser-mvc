@@ -1,5 +1,5 @@
-/* tslint:disable */
 import 'p2';
+/* tslint:disable */
 import 'pixi';
 import 'phaser';
 /* tslint:enable */
@@ -11,8 +11,8 @@ import { IControllerMap } from './i_controller_map';
 
 /** Bootstrap for the phaser-mvc.
  * Useage:
- * import { FrameController } from './controllers/frame_controller';
- * import { LandEditorController } from './controllers/admin/land_editor_controller';
+ * import { FrameController } from 'phaser-mvc';
+ * import { LandEditorController } from 'phaser-mvc';
  * window.onload = () => {
  * const boot = new Bootstrap();
  * boot.addController('FrameController', FrameController);
