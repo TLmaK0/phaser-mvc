@@ -1,12 +1,11 @@
 import * as Phaser from 'phaser-ce';
 
-import { Bootstrap } from 'bootstrap';
-import { IActionParams } from 'i_action_params';
-import { IControllerMap } from 'i_controller_map';
-import { IModel } from 'i_model';
-import { IViewMap } from 'view_map';
-
-import { View } from 'view';
+import { Bootstrap } from './bootstrap';
+import { IActionParams } from './i_action_params';
+import { IControllerMap } from './i_controller_map';
+import { IModel } from './i_model';
+import { IViewMap } from './i_view_map';
+import { View } from './view';
 
 /**
  * Controller accepts input from view and converts modifieds the model.

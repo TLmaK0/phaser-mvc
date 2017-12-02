@@ -4,12 +4,16 @@
     "noImplicitReturns": true,
     "target": "es5", 
     "module": "commonjs",
-    "sourceMap": true,
+    "sourceMap": false,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noUnusedParameters": true,
     "moduleResolution": "node",
-    "declaration": true
-  }
+    "declaration": true,
+    "declarationDir": "."
+  },
+  "include": [
+    "src/**/*"
+  ]
 }

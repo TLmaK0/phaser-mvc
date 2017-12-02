@@ -1,6 +1,6 @@
-import { Bootstrap } from 'bootstrap';
-import { View } from 'view';
-import { ViewComponentAdder } from 'view_component_adder';
+import { Bootstrap } from './bootstrap';
+import { View } from './view';
+import { ViewComponentAdder } from './view_component_adder';
 
 /**
  * Component to be showed in view

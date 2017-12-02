@@ -10,7 +10,7 @@ An MVC framework for Phaser
 
 ```javascript
 // app.ts
-import { Bootstrap } from 'phaser-mvc/bootstrap';
+import { Bootstrap } from 'phaser-mvc';
 import { FrameController } from './controllers/frame_controller';
 window.onload = () => {
   const boot = new Bootstrap();
@@ -21,9 +21,9 @@ window.onload = () => {
 
 ```javascript
 // controllers/frame_controller.ts
-import { Controller } from 'phaser-mvc/controller';
-import { IActionParams } from 'phaser-mvc/i_action_params';
-import { IViewMap } from 'phaser-mvc/view_map';
+import { Controller } from 'phaser-mvc';
+import { IActionParams } from 'phaser-mvc';
+import { IViewMap } from 'phaser-mvc';
 import { FrameView } from 'views/frame_view';
 export class FrameController extends Controller {
   constructor() {
@@ -47,8 +47,8 @@ export class FrameController extends Controller {
 
 ```javascript
 // views/frame_view.ts
-import { View } from 'phaser-mvc/view';
-import { ViewComponentAdder } from 'phaser-mvc/view_component_adder';
+import { View } from 'phaser-mvc';
+import { ViewComponentAdder } from 'phaser-mvc';
 import { Dialog } from './components/dialog';
 export class FrameView extends View {
   public create(componentAdder: ViewComponentAdder) {
@@ -74,8 +74,8 @@ export class FrameView extends View {
 
 ```javascript
 // view/components/dialog.ts
-import { ViewComponent } from 'phaser-mvc/view_component';
-import { ViewComponentAdder } from 'phaser-mvc/view_component_adder';
+import { ViewComponent } from 'phaser-mvc';
+import { ViewComponentAdder } from 'phaser-mvc';
 const buttonPng = require('../../assets/img/dialog/ok_button.png');
 const dialog = require('../../assets/img/dialog/dialog_box.png');
 

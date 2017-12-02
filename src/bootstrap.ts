@@ -5,9 +5,9 @@ import 'phaser';
 /* tslint:enable */
 import * as Phaser from 'phaser-ce';
 
-import { Controller } from 'controller';
-import { IActionParams } from 'i_action_params';
-import { IControllerMap } from 'i_controller_map';
+import { Controller } from './controller';
+import { IActionParams } from './i_action_params';
+import { IControllerMap } from './i_controller_map';
 
 /** Bootstrap for the phaser-mvc.
  * Useage:

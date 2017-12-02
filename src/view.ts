@@ -1,10 +1,10 @@
 import * as Phaser from 'phaser-ce';
 
-import { Controller } from 'controller';
-import { IActionParams } from 'i_action_params';
-import { IModel } from 'i_model';
-import { ViewComponent } from 'view_component';
-import { ViewComponentAdder } from 'view_component_adder';
+import { Controller } from './controller';
+import { IActionParams } from './i_action_params';
+import { IModel } from './i_model';
+import { ViewComponent } from './view_component';
+import { ViewComponentAdder } from './view_component_adder';
 
 /**
  * Input and ouput for the application

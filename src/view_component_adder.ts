@@ -1,5 +1,5 @@
-import { View } from 'view';
-import { ViewComponent } from 'view_component';
+import { View } from './view';
+import { ViewComponent } from './view_component';
 
 /**
  * Adds a component to the view
