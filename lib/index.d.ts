@@ -4,29 +4,28 @@
 
 import * as Phaser from 'phaser-ce';
 
-import 'p2';
-import 'pixi';
-import 'phaser';
+/**
+    */
 /** Bootstrap for the phaser-mvc.
-  * Useage:
-  * import { FrameController } from './controllers/frame_controller';
-  * import { LandEditorController } from './controllers/admin/land_editor_controller';
-  * window.onload = () => {
-  * const boot = new Bootstrap();
-  * boot.addController('FrameController', FrameController);
-  */
+    * Useage:
+    * import { FrameController } from 'phaser-mvc';
+    * import { LandEditorController } from 'phaser-mvc';
+    * window.onload = () => {
+    * const boot = new Bootstrap();
+    * boot.addController('FrameController', FrameController);
+    */
 export class Bootstrap {
-    static readonly WIDTH: number;
-    static readonly HEIGHT: number;
-    game: Phaser.Game;
-    protected controllers: IControllerMap;
-    static preloadComponent(preload: (game: Phaser.Game) => void): void;
-    start(controllerName: string, controllerAction: string, params: IActionParams): void;
-    preload: () => void;
-    create: () => void;
-    update: () => void;
-    addController<T extends Controller>(name: string, controllerType: new () => T): void;
-    goTo(controllerName: string, controllerAction: string, params: IActionParams): void;
+        static readonly WIDTH: number;
+        static readonly HEIGHT: number;
+        game: Phaser.Game;
+        protected controllers: IControllerMap;
+        static preloadComponent(preload: (game: Phaser.Game) => void): void;
+        start(controllerName: string, controllerAction: string, params: IActionParams): void;
+        preload: () => void;
+        create: () => void;
+        update: () => void;
+        addController<T extends Controller>(name: string, controllerType: new () => T): void;
+        goTo(controllerName: string, controllerAction: string, params: IActionParams): void;
 }
 
 /**

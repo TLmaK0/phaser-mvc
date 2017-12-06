@@ -19,6 +19,7 @@
     "curly": [true, "ignore-same-line"],
     "no-unsafe-any": false,
     "no-parameter-properties": false,
+    "no-relative-imports": false,
     "strict-boolean-expressions": [
       true,
       "allow-boolean-or-undefined"

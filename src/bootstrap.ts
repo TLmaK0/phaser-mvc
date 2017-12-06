@@ -1,8 +1,6 @@
-import 'p2';
-/* tslint:disable */
-import 'pixi';
-import 'phaser';
-/* tslint:enable */
+/**
+ */
+
 import * as Phaser from 'phaser-ce';
 
 import { Controller } from './controller';

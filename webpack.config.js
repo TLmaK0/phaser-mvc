@@ -2,14 +2,12 @@ const path = require('path');
 const phaserModulePath = path.join(__dirname, '/node_modules/phaser-ce/');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const glob = require("glob");
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 
 module.exports = [
   {
     externals: {
-      'phaser-ce': 'phaser-ce',
-      'phaser': 'phaser',
-      'pixi': 'pixi',
-      'p2': 'p2'
+      'phaser-ce': 'phaser-ce'
     },
     entry: path.resolve(__dirname, 'src/bootstrap.ts'),
     output: {
@@ -18,25 +16,36 @@ module.exports = [
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
-      modules: [ path.join(__dirname, 'node_modules'), path.join(__dirname, 'src') ],
-      alias: {
-        'phaser': path.join(phaserModulePath, 'build/custom/phaser-split.js'),
-        'pixi': path.join(phaserModulePath, 'build/custom/pixi.js'),
-        'p2': path.join(phaserModulePath, 'build/custom/p2.js')
-      }
+      modules: [ path.join(__dirname, 'node_modules'), path.join(__dirname, 'src') ]
     },
     module: {
       loaders: [
-        { test: /pixi\.js/, use: 'expose-loader?PIXI' },
-        { test: /phaser-split\.js$/, use: 'expose-loader?Phaser' },
-        { test: /p2\.js/, use: 'expose-loader?p2' },
-        { test: /\.tsx?$/, loader: 'ts-loader' },
+        { test: /\.tsx?$/, loader: 'ts-loader' }
       ]
     },
     devtool: 'inline-source-map',
     plugins: [
+      new DtsBundlePlugin(),
       new UglifyJSPlugin(),
-      new DtsBundlePlugin()
+      new HtmlWebpackExternalsPlugin({
+        externals: [
+          {
+            module: 'phaser-ce',
+            entry: 'build/custom/p2.min.js',
+            global: 'p2'
+          },
+          {
+            module: 'phaser-ce',
+            entry: 'build/custom/pixi.min.js',
+            global: 'PIXI'
+          },
+          {
+            module: 'phaser-ce',
+            entry: 'build/custom/phaser-split.min.js',
+            global: 'Phaser'
+          }
+        ]
+      })
     ]
   }
 ];
