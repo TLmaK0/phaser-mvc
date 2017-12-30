@@ -1,11 +1,12 @@
 {
   "name": "phaser-mvc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "MVC for phaser",
   "main": "lib/phaser-mvc.min.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "build": "webpack",
+    "watch": "webpack --watch",
     "test": "karma start",
     "lint": "tslint --force --project tsconfig.json -t verbose -c tslint.json 'src/**/*.ts'"
   },

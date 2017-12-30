@@ -1,3 +1,3 @@
 export { Bootstrap } from './bootstrap';
 export { Controller } from './controller';
-export { View } from './view';
+export { View, ViewComponent } from './view';

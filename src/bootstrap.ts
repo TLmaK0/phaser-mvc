@@ -26,7 +26,7 @@ export class Bootstrap {
   protected controllers: IControllerMap = {};
   private startAction: [string, string, IActionParams];
 
-  public static preloadComponent(preload: (game: Phaser.Game) => void): void {
+  public static preload(preload: (game: Phaser.Game) => void): void {
     Bootstrap.preloadComponents.push(preload);
   }
 

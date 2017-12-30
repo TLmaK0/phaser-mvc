@@ -1,0 +1,38 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint-eslint-rules",
+    "tslint-microsoft-contrib",
+    "tslint-no-circular-imports"
+  ],
+  "jsRules": {},
+  "rules": {
+    "missing-jsdoc": false,
+    "import-name": false,
+    "cyclomatic-complexity": [true, 4],
+    "max-func-body-length": [true, 30],
+    "max-file-line-count": [true, 100],
+    "variable-name": [true, "check-format", "allow-leading-underscore"],
+    "no-console": true,
+    "no-trailing-whitespace": true,
+    "space-before-function-paren": [true, "never"],
+    "block-spacing": true,
+    "one-variable-per-declaration": true,
+    "curly": [true, "ignore-same-line"],
+    "no-unsafe-any": false,
+    "no-parameter-properties": false,
+    "no-relative-imports": false,
+    "strict-boolean-expressions": [
+      true,
+      "allow-boolean-or-undefined"
+    ],
+    "typedef": [true, {
+      "variable-declaration": false
+    }],
+    "export-name": false,
+    "function-name": [true, {
+      "static-method-regex": "^[a-z][\\w\\d]+$"
+    }]
+  },
+  "rulesDirectory": []
+}

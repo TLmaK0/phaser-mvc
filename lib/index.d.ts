@@ -19,7 +19,7 @@ export class Bootstrap {
         static readonly HEIGHT: number;
         game: Phaser.Game;
         protected controllers: IControllerMap;
-        static preloadComponent(preload: (game: Phaser.Game) => void): void;
+        static preload(preload: (game: Phaser.Game) => void): void;
         start(controllerName: string, controllerAction: string, params: IActionParams): void;
         preload: () => void;
         create: () => void;
@@ -74,7 +74,7 @@ export interface IViewMap {
     * Adds a component to the view and other view components
     */
 export class ViewComponentAdder {
-        constructor(components: ViewComponent[]);
+        constructor(components: ViewComponent[], view: View);
         addComponent<T extends ViewComponent>(component: T): T;
 }
 /**
@@ -103,7 +103,7 @@ export abstract class ViewComponent {
         protected components: ViewComponent[];
         create(_componentAdder: ViewComponentAdder): void;
         update(): void;
-        createComponent(componentAdder: ViewComponentAdder): void;
+        createComponent(componentAdder: ViewComponentAdder, view: View): void;
         updateComponent(): void;
         protected readonly game: Phaser.Game;
 }

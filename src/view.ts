@@ -7,11 +7,11 @@ import { IModel } from './i_model';
  * Adds a component to the view and other view components
  */
 export class ViewComponentAdder {
-  constructor(private components: ViewComponent[]) {}
+  constructor(private components: ViewComponent[], private view: View) {}
 
   public addComponent<T extends ViewComponent>(component: T): T {
     this.components.push(component);
-    component.createComponent(this);
+    component.createComponent(this, this.view);
 
     return component;
   }
@@ -55,7 +55,7 @@ export abstract class View {
   get model(): IModel { return this._model; }
 
   public createView() {
-    const componentAdder = new ViewComponentAdder(this.components);
+    const componentAdder = new ViewComponentAdder(this.components, this);
     this.create(componentAdder);
   }
 
@@ -92,10 +92,11 @@ export abstract class ViewComponent {
     //empty, can be overrided or not
   }
 
-  public createComponent(componentAdder: ViewComponentAdder): void {
+  public createComponent(componentAdder: ViewComponentAdder, view: View): void {
+    this.view = view;
     this.create(componentAdder);
     for (const component of this.components) {
-      component.createComponent(componentAdder);
+      component.createComponent(componentAdder, view);
     }
   }
 

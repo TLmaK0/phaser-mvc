@@ -33,7 +33,7 @@ module.exports = [
     devtool: 'inline-source-map',
     plugins: [
       new DtsBundlePlugin(),
-      //new UglifyJSPlugin(),
+      new UglifyJSPlugin(),
     ]
   }
 ];
