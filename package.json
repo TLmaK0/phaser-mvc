@@ -29,7 +29,6 @@
   },
   "devDependencies": {
     "dts-bundle": "^0.7.3",
-    "expose-loader": "^0.7.3",
     "html-webpack-externals-plugin": "^3.6.0",
     "ts-loader": "^2.3.7",
     "tslint": "^5.7.0",
