@@ -9,14 +9,21 @@ module.exports = [
     externals: {
       'phaser-ce': 'phaser-ce'
     },
-    entry: path.resolve(__dirname, 'src/bootstrap.ts'),
+    entry: path.resolve(__dirname, 'src/index.ts'),
     output: {
       path: path.resolve(__dirname, 'lib'),
-      filename: 'phaser-mvc.min.js'
+      filename: 'phaser-mvc.min.js',
+      library: '',
+      libraryTarget: 'commonjs'
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
-      modules: [ path.join(__dirname, 'node_modules'), path.join(__dirname, 'src') ]
+      modules: [ path.join(__dirname, 'node_modules'), path.join(__dirname, 'src') ],
+      alias: {
+        'phaser': path.join(phaserModulePath, 'build/custom/phaser-split.js'),
+        'pixi': path.join(phaserModulePath, 'build/custom/pixi.js'),
+        'p2': path.join(phaserModulePath, 'build/custom/p2.js')
+      }
     },
     module: {
       loaders: [
@@ -26,26 +33,7 @@ module.exports = [
     devtool: 'inline-source-map',
     plugins: [
       new DtsBundlePlugin(),
-      new UglifyJSPlugin(),
-      new HtmlWebpackExternalsPlugin({
-        externals: [
-          {
-            module: 'phaser-ce',
-            entry: 'build/custom/p2.min.js',
-            global: 'p2'
-          },
-          {
-            module: 'phaser-ce',
-            entry: 'build/custom/pixi.min.js',
-            global: 'PIXI'
-          },
-          {
-            module: 'phaser-ce',
-            entry: 'build/custom/phaser-split.min.js',
-            global: 'Phaser'
-          }
-        ]
-      })
+      //new UglifyJSPlugin(),
     ]
   }
 ];

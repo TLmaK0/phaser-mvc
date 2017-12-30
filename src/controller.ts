@@ -33,7 +33,7 @@ export abstract class Controller {
   }
 
   protected render(view: View): void {
-    view.init(this);
+    view.init(this.game, this.model, this.goTo);
   }
 
   protected refresh(view: View): void {

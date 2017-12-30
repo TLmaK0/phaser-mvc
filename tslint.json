@@ -2,7 +2,8 @@
   "defaultSeverity": "error",
   "extends": [
     "tslint-eslint-rules",
-    "tslint-microsoft-contrib"
+    "tslint-microsoft-contrib",
+    "tslint-no-circular-imports"
   ],
   "jsRules": {},
   "rules": {

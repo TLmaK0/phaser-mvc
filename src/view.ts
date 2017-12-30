@@ -1,18 +1,31 @@
 import * as Phaser from 'phaser-ce';
 
-import { Controller } from './controller';
 import { IActionParams } from './i_action_params';
 import { IModel } from './i_model';
-import { ViewComponent } from './view_component';
-import { ViewComponentAdder } from './view_component_adder';
+
+/**
+ * Adds a component to the view and other view components
+ */
+export class ViewComponentAdder {
+  constructor(private components: ViewComponent[]) {}
+
+  public addComponent<T extends ViewComponent>(component: T): T {
+    this.components.push(component);
+    component.createComponent(this);
+
+    return component;
+  }
+}
 
 /**
  * Input and ouput for the application
  */
 export abstract class View {
-  public controller: Controller;
   protected components: ViewComponent[] = [];
   protected initiated: boolean = false;
+  private _game: Phaser.Game;
+  private _model: IModel;
+  private _goTo: (controllerName: string, controllerAction: string, params: IActionParams) => void;
 
   public refresh() {
     //empty, can be overrided or not
@@ -27,24 +40,22 @@ export abstract class View {
     //empty, can be overrided or not
   }
 
-  public init(controller: Controller) {
+  public init(game: Phaser.Game, model: IModel, goTo: (controllerName: string, controllerAction: string, params: IActionParams) => void) {
     if (!this.initiated) {
-      this.controller = controller;
+      this._game = game;
+      this._model = model;
+      this._goTo = goTo;
       this.createView();
       this.initiated = true;
     }
   }
 
-  get game(): Phaser.Game {
-    return this.controller.game;
-  }
+  get game(): Phaser.Game { return this._game; }
 
-  get model(): IModel {
-    return this.controller.model;
-  }
+  get model(): IModel { return this._model; }
 
   public createView() {
-    const componentAdder = new ViewComponentAdder(this, this.components);
+    const componentAdder = new ViewComponentAdder(this.components);
     this.create(componentAdder);
   }
 
@@ -62,6 +73,40 @@ export abstract class View {
   }
 
   protected goTo(controllerName: string, controllerAction: string, params: IActionParams): void {
-    this.controller.goTo(controllerName, controllerAction, params);
+    this._goTo(controllerName, controllerAction, params);
+  }
+}
+
+/**
+ * Component to be showed in view
+ */
+export abstract class ViewComponent {
+  public view: View;
+  protected components: ViewComponent[] = [];
+
+  public create(_componentAdder: ViewComponentAdder): void {
+    //empty, can be overrided or not
+  }
+
+  public update(): void {
+    //empty, can be overrided or not
+  }
+
+  public createComponent(componentAdder: ViewComponentAdder): void {
+    this.create(componentAdder);
+    for (const component of this.components) {
+      component.createComponent(componentAdder);
+    }
+  }
+
+  public updateComponent(): void {
+    this.update();
+    for (const component of this.components) {
+      component.updateComponent();
+    }
+  }
+
+  protected get game(): Phaser.Game {
+    return this.view.game;
   }
 }
