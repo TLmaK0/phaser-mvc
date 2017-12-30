@@ -1,6 +1,6 @@
 {
   "name": "phaser-mvc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "MVC for phaser",
   "main": "lib/phaser-mvc.min.js",
   "typings": "lib/index.d.ts",
