@@ -19,7 +19,7 @@ export abstract class Controller {
     return this.bootstrap.game;
   }
 
-  public goTo(controllerName: string, controllerAction: string, params: IActionParams): void {
+  public goTo = (controllerName: string, controllerAction: string, params: IActionParams) => {
     this.bootstrap.goTo(controllerName, controllerAction, params);
   }
 

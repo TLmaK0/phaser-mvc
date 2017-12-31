@@ -1,5 +1,5 @@
 import { View, ViewComponentAdder } from 'phaser-mvc';
-import { Player } from '../models/player';
+import { Pong } from '../models/pong';
 
 /**
  * Players View
@@ -21,7 +21,7 @@ export class PlayersView extends View {
   }
 
   private updatePlayerPositionIfRequired(playerNumber: number){
-    const players = <Player[]>this.model.players;
+    const players = (<Pong>this.model.pong).players;
     if (this.playersYpos[playerNumber] != players[playerNumber].pos) {
       this.playersYpos[playerNumber] == players[playerNumber].pos;
       this.players[playerNumber].moveTo(this.playersXpos[playerNumber], this.playersYpos[playerNumber]);

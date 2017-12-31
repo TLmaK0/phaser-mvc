@@ -10,7 +10,7 @@ export class GameController extends Controller {
 
   public startGame = () => {
     this.goTo('FieldController', 'prepareField', { score: this.pong.score });
-    this.goTo('PlayersController', 'preparePlayers', { players: this.pong.players });
+    this.goTo('PlayersController', 'preparePlayers', { pong: this.pong });
   }
 }
 
