@@ -4,14 +4,26 @@ import { Player } from './player';
 export class Pong {
   players: Player[] = [new Player(), new Player()];
   score: Score = new Score();
+  timeouts: number[] = [-1, -1];
 
-  public movePlayerUp(_playerId: number){
-    console.log('move up');
+  public movePlayerUp(playerId: number){
+    this.stopPlayer(playerId);
+    this._movePlayer(playerId, -10);
   }
 
-  public movePlayerDown(_playerId: number){
+  public movePlayerDown(playerId: number){
+    this.stopPlayer(playerId);
+    this._movePlayer(playerId, 10);
   }
 
-  public stopPlayer(_playerId: number){
+  public stopPlayer(playerId: number){
+    clearTimeout(this.timeouts[playerId]);
+  }
+
+  private _movePlayer(playerId: number, step: number){
+    this.players[playerId].pos += step;
+    this.timeouts[playerId] = setTimeout(() => {
+      this._movePlayer(playerId, step);
+    }, 10);
   }
 }

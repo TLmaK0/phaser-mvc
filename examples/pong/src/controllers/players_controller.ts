@@ -15,7 +15,7 @@ export class PlayersController extends Controller {
     this.render(this.views.playersKeyboard);
   }
 
-  public MovePlayer = (params: IActionParams) => {
+  public movePlayer = (params: IActionParams) => {
     const playerId = <number>params.player;
     const direction = <string>params.direction;
 
