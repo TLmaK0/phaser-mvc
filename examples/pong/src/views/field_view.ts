@@ -1,10 +1,14 @@
 import { View } from 'phaser-mvc';
 import { ViewComponentAdder } from 'phaser-mvc';
 import { Scoreboard } from './components/scoreboard';
+import { Score } from '../models/score';
 /**
  * Field View
  */
 export class FieldView extends View {
+  private scorePlayer1: number;
+  private scorePlayer2: number;
+  
   private scoreboard: Scoreboard;
 
   public create(componentAdder: ViewComponentAdder) {
@@ -12,12 +16,17 @@ export class FieldView extends View {
     this.createNet();
   }
 
-  public refresh() {
-    //empty
-  }
-
   public update() {
-    //empty
+    const score = <Score>this.model.score;
+    if (score.player1 != this.scorePlayer1) {
+      this.scorePlayer1 = score.player1;
+      this.scoreboard.scorePlayer1 = this.scorePlayer1;
+    }
+
+    if (score.player2 != this.scorePlayer2) {
+      this.scorePlayer2 = score.player2;
+      this.scoreboard.scorePlayer2 = this.scorePlayer2;
+    }
   }
 
   private createNet(){

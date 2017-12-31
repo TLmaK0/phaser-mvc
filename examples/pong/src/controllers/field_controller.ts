@@ -1,6 +1,6 @@
-import { IViewMap } from 'phaser-mvc';
-import { Controller } from 'phaser-mvc';
+import { IViewMap, IActionParams, Controller } from 'phaser-mvc';
 import { FieldView } from '../views/field_view';
+import { Score } from '../models/score';
 
 /**
  * Startup controller
@@ -14,7 +14,8 @@ export class FieldController extends Controller {
     super();
   }
 
-  public startGame = () => {
+  public prepareField = (params: IActionParams) => {
+    this.model.score = params.score;
     this.render(this.views.field);
   }
 }

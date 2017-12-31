@@ -11,7 +11,7 @@ import { View } from './view';
  * Controller accepts input from view and converts modifieds the model.
  */
 export abstract class Controller {
-  public views: IViewMap;
+  public views: IViewMap = {};
   public bootstrap: Bootstrap;
   public model: IModel = {};
 
