@@ -20,8 +20,8 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.tsx?$/, loader: 'ts-loader' },
-      { test: /\.(jpe?g|gif|png|svg)$/, loader: "file-loader?name=/img/[name].[ext]?[hash]" },
-      { test: /\.(wav|mp3|ogg)$/, loader: "file-loader?name=/audio/[name].[ext]?[hash]" }
+      { test: /\.(jpe?g|gif|png|svg)$/, loader: "file-loader?name=images/[name].[ext]?[hash]" },
+      { test: /\.(wav|mp3|ogg)$/, loader: "file-loader?name=audio/[name].[ext]?[hash]" }
     ]
   },
   devtool: "source-map",
