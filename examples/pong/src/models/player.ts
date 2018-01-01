@@ -1,3 +1,9 @@
 export class Player {
-  pos: number = 500;
+  posX: number = 0;
+  posY: number = 0;
+  height: number = 100;
+
+  public constructor(init?:Partial<Player>){
+    (<any>Object).assign(this, init);
+  }
 }

@@ -5,15 +5,13 @@ import { Pong } from '../models/pong';
  * Players View
  */
 export class PlayersView extends View {
-  playerLength: number = 100;
-  playersXpos: number[] = [100, 950];
-  playersYpos: number[] = [0,0];
+  playersYpos: number[] = [0, 0];
 
   players: Phaser.Graphics[] = [];
 
   public create(_componentAdder: ViewComponentAdder) {
-    this.players.push(this.drawPlayer(0, 500));
-    this.players.push(this.drawPlayer(1, 500));
+    this.players.push(this.game.add.graphics(0,0));
+    this.players.push(this.game.add.graphics(0,0));
   }
 
   public update(){
@@ -21,16 +19,12 @@ export class PlayersView extends View {
     this.updatePlayerPositionIfRequired(1);
   }
 
-  private updatePlayerPositionIfRequired(playerNumber: number){
+  private updatePlayerPositionIfRequired(playerId: number){
     const players = (<Pong>this.model.pong).players;
-    if (this.playersYpos[playerNumber] != players[playerNumber].pos) {
-      this.playersYpos[playerNumber] = players[playerNumber].pos;
-      this.moveLine(this.players[playerNumber], this.playersXpos[playerNumber], this.playersYpos[playerNumber], this.playerLength);
+    if (this.playersYpos[playerId] != players[playerId].posY) {
+      this.playersYpos[playerId] = players[playerId].posY;
+      this.moveLine(this.players[playerId], players[playerId].posX, this.playersYpos[playerId], players[playerId].height);
     }
-  }
-
-  private drawPlayer(player: number, pos: number){
-    return this.drawVerticalLine(this.playersXpos[player], pos, this.playerLength);
   }
 
   private moveLine(line: Phaser.Graphics, origX: number, origY: number, length: number){
@@ -41,12 +35,6 @@ export class PlayersView extends View {
     line.lineTo(origX,
                 origY + length);
     line.endFill();
-  }
-
-  private drawVerticalLine(origX: number, origY: number, length: number){
-    const line = this.game.add.graphics(0,0);
-    this.moveLine(line, origX, origY, length);
-    return line;
   }
 }
 
