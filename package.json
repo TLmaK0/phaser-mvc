@@ -1,6 +1,6 @@
 {
   "name": "phaser-mvc",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "MVC for phaser",
   "main": "lib/phaser-mvc.min.js",
   "typings": "lib/index.d.ts",
@@ -26,7 +26,8 @@
   "homepage": "https://github.com/TLmaK0/phaser-mvc#readme",
   "dependencies": {
     "phaser-ce": "^2.9.1",
-    "pixi": "^0.3.1"
+    "pixi": "^0.3.1",
+    "screenfull": "^3.3.2"
   },
   "devDependencies": {
     "dts-bundle": "^0.7.3",

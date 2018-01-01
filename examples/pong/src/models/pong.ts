@@ -6,8 +6,8 @@ export class Pong {
   players: Player[];
   score: Score = new Score();
   ball: Ball = new Ball();
-  playersTimeout: number[] = [-1, -1];
-  ballTimeout: number = -1;
+  playersTimeout: NodeJS.Timer[] = [];
+  ballTimeout: NodeJS.Timer;
   bounds: number[];
   step: number = 10;
 

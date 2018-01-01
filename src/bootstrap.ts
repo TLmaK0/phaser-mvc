@@ -17,14 +17,14 @@ import { IControllerMap } from './i_controller_map';
  */
 
 export class Bootstrap {
-
-  public static readonly WIDTH: number = 1920;
-  public static readonly HEIGHT: number = 1080;
   private static preloadComponents: ((game: Phaser.Game) => void)[] = [];
 
   public game: Phaser.Game;
   protected controllers: IControllerMap = {};
   private startAction: [string, string, IActionParams];
+
+  public constructor(public width: number = 1920, public height: number = 1080){
+  }
 
   public static preload(preload: (game: Phaser.Game) => void): void {
     Bootstrap.preloadComponents.push(preload);
@@ -33,8 +33,8 @@ export class Bootstrap {
   public start(controllerName: string, controllerAction: string, params: IActionParams): void {
     this.startAction = [controllerName, controllerAction, params];
     this.game = new Phaser.Game(
-      Bootstrap.WIDTH,
-      Bootstrap.HEIGHT,
+      this.width,
+      this.height,
       Phaser.CANVAS,
       'content',
       { preload: this.preload,
@@ -49,6 +49,7 @@ export class Bootstrap {
   }
 
   public create = (): void => {
+    this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     this.goTo(this.startAction[0], this.startAction[1], this.startAction[2]);
   }
 

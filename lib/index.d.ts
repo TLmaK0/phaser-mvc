@@ -15,10 +15,11 @@ import * as Phaser from 'phaser-ce';
     * boot.addController('FrameController', FrameController);
     */
 export class Bootstrap {
-        static readonly WIDTH: number;
-        static readonly HEIGHT: number;
+        width: number;
+        height: number;
         game: Phaser.Game;
         protected controllers: IControllerMap;
+        constructor(width?: number, height?: number);
         static preload(preload: (game: Phaser.Game) => void): void;
         start(controllerName: string, controllerAction: string, params: IActionParams): void;
         preload: () => void;
@@ -36,7 +37,7 @@ export abstract class Controller {
     bootstrap: Bootstrap;
     model: IModel;
     readonly game: Phaser.Game;
-    goTo(controllerName: string, controllerAction: string, params: IActionParams): void;
+    goTo: (controllerName: string, controllerAction: string, params: IActionParams) => void;
     getView(viewName: string): View;
     protected render(view: View): void;
     protected refresh(view: View): void;

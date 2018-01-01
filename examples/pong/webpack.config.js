@@ -28,7 +28,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Demo game',
-      cache: false
+      cache: false,
+      template: 'src/index.html'
     }),
     new HtmlWebpackExternalsPlugin({
       externals: [
