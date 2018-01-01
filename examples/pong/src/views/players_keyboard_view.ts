@@ -11,8 +11,8 @@ export class PlayersKeyboardView extends View {
   public update(){
     if (this.keyboardDownKey(Phaser.Keyboard.W, 0)) this.movePlayer(0, 'up');
     if (this.keyboardDownKey(Phaser.Keyboard.S, 0)) this.movePlayer(0, 'down');
-    if (this.keyboardDownKey(Phaser.Keyboard.UP, 1)) this.movePlayer(1, 'up');
-    if (this.keyboardDownKey(Phaser.Keyboard.DOWN, 1)) this.movePlayer(1, 'down');
+    if (this.keyboardDownKey(Phaser.Keyboard.O, 1)) this.movePlayer(1, 'up');
+    if (this.keyboardDownKey(Phaser.Keyboard.K, 1)) this.movePlayer(1, 'down');
 
     this.stopPlayerIfNeeded([Phaser.Keyboard.S, Phaser.Keyboard.W], 0);
     this.stopPlayerIfNeeded([Phaser.Keyboard.DOWN, Phaser.Keyboard.UP], 1);

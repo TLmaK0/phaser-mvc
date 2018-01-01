@@ -6,6 +6,10 @@ An MVC framework for Phaser
 
 ```npm install phaser-mvc```
 
+## Run examples at /examples
+
+![Pong](examples/pong/pong.png)
+
 ## How to use
 
 ```javascript

@@ -1,7 +1,15 @@
-import { View } from 'phaser-mvc';
-import { ViewComponentAdder } from 'phaser-mvc';
+import { View, ViewComponentAdder, Bootstrap } from 'phaser-mvc';
 import { Scoreboard } from './components/scoreboard';
 import { Pong } from '../models/pong';
+
+const pongWav = require('../assets/audios/pong.wav');
+const failWav = require('../assets/audios/fail.wav');
+
+Bootstrap.preload((game: Phaser.Game) => {
+  game.load.audio('pongWav', pongWav);
+  game.load.audio('failWav', failWav);
+});
+
 /**
  * Field View
  */
@@ -12,24 +20,38 @@ export class FieldView extends View {
   private scoreboard: Scoreboard;
   private ball: Phaser.Graphics;
   private lastBallPosition: number[] = [0, 0];
+  private pongEffect: Phaser.Sound;
+  private failEffect: Phaser.Sound;
+  private lastSpeed: number;
+  private lastSlope: number;
 
   public create(componentAdder: ViewComponentAdder) {
     const bounds = (<Pong>this.model.pong).bounds;
     this.scoreboard = componentAdder.addComponent(new Scoreboard(bounds));
     this.createNet();
     this.createBall();
+    this.pongEffect = this.game.add.audio('pongWav');
+    this.failEffect = this.game.add.audio('failWav');
   }
 
   public update() {
-    const score = (<Pong>this.model.pong).score;
-    if (score.player1 != this.scorePlayer1) {
-      this.scorePlayer1 = score.player1;
+    const pong = <Pong>this.model.pong;
+    if (pong.score.player1 != this.scorePlayer1) {
+      this.scorePlayer1 = pong.score.player1;
       this.scoreboard.scorePlayer1 = this.scorePlayer1;
+      this.failEffect.play();
     }
 
-    if (score.player2 != this.scorePlayer2) {
-      this.scorePlayer2 = score.player2;
+    if (pong.score.player2 != this.scorePlayer2) {
+      this.scorePlayer2 = pong.score.player2;
       this.scoreboard.scorePlayer2 = this.scorePlayer2;
+      this.failEffect.play();
+    }
+
+    if (pong.ball.slope != this.lastSlope || pong.ball.speed != this.lastSpeed){
+      this.lastSlope = pong.ball.slope;
+      this.lastSpeed = pong.ball.speed;
+      this.pongEffect.play();
     }
 
     this.updateBall();
