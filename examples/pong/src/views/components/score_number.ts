@@ -7,7 +7,7 @@ export class ScoreNumber extends ViewComponent {
   private _value: number;
   private lineWidth = 10;
 
-  constructor(origX: number, origY: number){
+  constructor(origX: number, origY: number) {
     super();
     this.position = new Phaser.Point(origX, origY);
   }
@@ -25,11 +25,10 @@ export class ScoreNumber extends ViewComponent {
     this.lines.push(this.drawLine(0, 100, 0, 200)); // |< 4
     this.lines.push(this.drawLine(0 - this.lineWidth, 200, 100 + this.lineWidth, 200)); // - 5
     this.lines.push(this.drawLine(100, 100, 100, 200)); // |> 6
-    
     this.value = 0;
   }
 
-  public get value(){
+  public get value() {
     return this._value;
   }
 
@@ -69,15 +68,15 @@ export class ScoreNumber extends ViewComponent {
     }
   }
 
-  private hideLinesByPosition(lineNumbers: number[]){
-    for (let lineNumber of lineNumbers){
+  private hideLinesByPosition(lineNumbers: number[]) {
+    for (let lineNumber of lineNumbers) {
       this.lines[lineNumber].visible = false;
     }
   }
 
-  private drawLine(origX: number, origY: number, destX: number, destY: number){
+  private drawLine(origX: number, origY: number, destX: number, destY: number) {
 
-    const line = this.game.add.graphics(0,0);
+    const line = this.game.add.graphics(0, 0);
     line.clear();
     line.lineStyle(2 * this.lineWidth, 0xffffff);
     line.moveTo(this.position.x + origX,
