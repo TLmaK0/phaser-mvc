@@ -1,6 +1,6 @@
-import { View, ViewComponentAdder, Bootstrap } from 'phaser-mvc';
-import { Scoreboard } from './components/scoreboard';
+import { Bootstrap, View, ViewComponentAdder  } from 'phaser-mvc';
 import { Pong } from '../models/pong';
+import { Scoreboard } from './components/scoreboard';
 
 const pongWav = require('../assets/audios/pong.wav');
 const failWav = require('../assets/audios/fail.wav');
@@ -16,7 +16,6 @@ Bootstrap.preload((game: Phaser.Game) => {
 export class FieldView extends View {
   private scorePlayer1: number;
   private scorePlayer2: number;
-  
   private scoreboard: Scoreboard;
   private ball: Phaser.Graphics;
   private lastBallPosition: number[] = [0, 0];
@@ -57,27 +56,27 @@ export class FieldView extends View {
     this.updateBall();
   }
 
-  private createBall(){
-    this.ball = this.game.add.graphics(0,0);
+  private createBall() {
+    this.ball = this.game.add.graphics(0, 0);
     this.updateBall();
   }
 
-  private updateBall(){
+  private updateBall() {
     const ballModel = (<Pong>this.model.pong).ball;
-    if (this.lastBallPosition[0] != ballModel.posX || this.lastBallPosition[1] != ballModel.posY) {
+    if (this.lastBallPosition[0] !== ballModel.posX || this.lastBallPosition[1] !== ballModel.posY) {
       this.lastBallPosition = [ballModel.posX, ballModel.posY];
       this.drawVerticalLine(this.ball, ballModel.posX, ballModel.posY, 10);
     }
   }
 
-  private createNet(){
+  private createNet() {
     const bounds = (<Pong>this.model.pong).bounds;
-    for(let y = 0; y < bounds[1]; y += 40){
-      this.drawVerticalLine(this.game.add.graphics(0,0), bounds[0] / 2, y, 20);
+    for (let y = 0; y < bounds[1]; y += 40) {
+      this.drawVerticalLine(this.game.add.graphics(0, 0), bounds[0] / 2, y, 20);
     }
   }
 
-  private drawVerticalLine(line: Phaser.Graphics, origX: number, origY: number, length: number){
+  private drawVerticalLine(line: Phaser.Graphics, origX: number, origY: number, length: number) {
     line.clear();
     line.lineStyle(10, 0xffffff);
     line.moveTo(origX,

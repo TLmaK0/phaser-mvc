@@ -1,7 +1,7 @@
 import { Controller, IActionParams, IViewMap } from 'phaser-mvc';
-import { PlayersView } from '../views/players_view';
-import { PlayersKeyboardView } from '../views/players_keyboard_view';
 import { Pong } from '../models/pong';
+import { PlayersKeyboardView } from '../views/players_keyboard_view';
+import { PlayersView } from '../views/players_view';
 
 export class PlayersController extends Controller {
   public views: IViewMap = {
@@ -21,12 +21,14 @@ export class PlayersController extends Controller {
 
     const pong = <Pong> this.model.pong;
 
-    switch(direction){
+    switch (direction) {
       case 'up':
         pong.movePlayerUp(playerId);
         break;
       case 'down':
         pong.movePlayerDown(playerId);
+        break;
+      default:
         break;
     }
   }

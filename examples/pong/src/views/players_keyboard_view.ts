@@ -5,7 +5,8 @@ import { View, ViewComponentAdder } from 'phaser-mvc';
  */
 export class PlayersKeyboardView extends View {
   playersLastKey: number[] = [Phaser.Keyboard.ZERO, Phaser.Keyboard.ZERO];
-  public create(_componentAdder: ViewComponentAdder) {
+  public create(_componentAdder: ViewComponentAdder) { 
+
   }
 
   public update(){
@@ -18,28 +19,28 @@ export class PlayersKeyboardView extends View {
     this.stopPlayerIfNeeded([Phaser.Keyboard.DOWN, Phaser.Keyboard.UP], 1);
   }
 
-  private keysPressed(keys: number[]){
+  private keysPressed(keys: number[]) {
     const keyboard = this.game.input.keyboard;
     let pressed = false;
-    for(const key of keys){
-      pressed = pressed || keyboard.isDown(key);   
+    for (const key of keys) {
+      pressed = pressed || keyboard.isDown(key);
     }
     return pressed;
   }
 
-  private stopPlayerIfNeeded(keys: number[], playerId: number){
-    if (this.playersLastKey[playerId] != Phaser.Keyboard.ZERO && !this.keysPressed(keys)) {
+  private stopPlayerIfNeeded(keys: number[], playerId: number) {
+    if (this.playersLastKey[playerId] !== Phaser.Keyboard.ZERO && !this.keysPressed(keys)) {
       this.playersLastKey[playerId] = Phaser.Keyboard.ZERO;
       this.goTo('PlayersController', 'stopPlayer', { player: playerId });
     }
   }
 
-  private movePlayer(playerId: number, direction: string){
+  private movePlayer(playerId: number, direction: string) {
     this.goTo('PlayersController', 'movePlayer', { player: playerId, direction: direction });
   }
 
-  private keyboardDownKey(key: number, playerId: number){
-    const newKey = this.playersLastKey[playerId] != key && this.game.input.keyboard.isDown(key);
+  private keyboardDownKey(key: number, playerId: number) {
+    const newKey = this.playersLastKey[playerId] !== key && this.game.input.keyboard.isDown(key);
     if (newKey) this.playersLastKey[playerId] = key;
     return newKey;
   }

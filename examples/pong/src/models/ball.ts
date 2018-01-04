@@ -1,6 +1,6 @@
-export class Ball{
-  posX: number = 0;
-  posY: number = 0;
-  slope: number = 0;
-  speed: number = 0;
+export class Ball {
+  public posX: number = 0;
+  public posY: number = 0;
+  public slope: number = 0;
+  public speed: number = 0;
 }
