@@ -1,7 +1,10 @@
 import * as Phaser from 'phaser-ce';
+import * as _ from 'lodash';
+import { Observable, Observer } from '@reactivex/rxjs';
 
 import { IActionParams } from './i_action_params';
 import { IModel } from './i_model';
+import { ModelWatch, GetModel } from './model_watch';
 
 /**
  * Adds a component to the view and other view components
@@ -16,6 +19,8 @@ export class ViewComponentAdder {
     return component;
   }
 }
+
+export type ExecuteOnModelChange = (getModel: GetModel, returnModel: GetModel, update: GetModel ) => void;
 
 /**
  * Input and ouput for the application
@@ -57,10 +62,12 @@ export abstract class View {
   public createView() {
     const componentAdder = new ViewComponentAdder(this.components, this);
     this.create(componentAdder);
+    this.updateOnModelChange(this.execOnUpdated);
   }
 
   public updateView() {
     if (!this.initiated) return;
+    this.checkModelWatchs();
     this.update();
     for (const component of this.components) {
       component.updateComponent();
@@ -70,6 +77,35 @@ export abstract class View {
   public refreshView() {
     if (!this.initiated) throw EvalError('View is not rendered please render it before refresh.');
     this.refresh();
+  }
+
+  public updateOnModelChange(_onChange: ExecuteOnModelChange){
+    //this should be overrided or not
+  }
+
+  private modelWatchs: ModelWatch[] = [];
+
+  private execOnUpdated = (getModel: GetModel, returnModel: GetModel, update: GetModel ) => {
+    const modelWatch = new ModelWatch();
+
+    modelWatch.observable = Observable.create(
+      (observer: Observer<GetModel>) => modelWatch.observer = observer
+    ).distinctUntilChanged(
+      (prev: any, next: any) => _.isEqual(prev, next)
+    ).map((model: any) => {
+      let model = returnModel(model);
+      return model;
+    });
+
+    modelWatch.getModel = getModel;
+    modelWatch.observable.subscribe(update);
+    this.modelWatchs.push(modelWatch); 
+  }
+
+  private checkModelWatchs(){
+    for(const modelWatch of this.modelWatchs){
+      modelWatch.observer.next(modelWatch.getModel(this.model));
+    }
   }
 
   protected goTo(controllerName: string, controllerAction: string, params: IActionParams): void {

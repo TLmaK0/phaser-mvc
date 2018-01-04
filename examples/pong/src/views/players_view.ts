@@ -1,11 +1,11 @@
-import { View, ViewComponentAdder } from 'phaser-mvc';
+import { View, ViewComponentAdder, ExecuteOnModelChange } from 'phaser-mvc';
 import { Pong } from '../models/pong';
+import { Player } from '../models/player';
 
 /**
  * Players View
  */
 export class PlayersView extends View {
-  private playersYpos: number[] = [0, 0];
   private players: Phaser.Graphics[] = [];
 
   public create(_componentAdder: ViewComponentAdder) {
@@ -13,17 +13,17 @@ export class PlayersView extends View {
     this.players.push(this.game.add.graphics(0, 0));
   }
 
-  public update() {
-    this.updatePlayerPositionIfRequired(0);
-    this.updatePlayerPositionIfRequired(1);
+  public updateOnModelChange(onChange: ExecuteOnModelChange){
+    onChange((model) => (<Pong>model.pong).players[0].posY, (_model) => 0, this.movePlayer);
+    onChange((model) => (<Pong>model.pong).players[1].posY, (_model) => 1, this.movePlayer);
   }
 
-  private updatePlayerPositionIfRequired(playerId: number) {
+  public update(){
+  }
+
+  private movePlayer = (playerId: number) => {
     const players = (<Pong>this.model.pong).players;
-    if (this.playersYpos[playerId] !== players[playerId].posY) {
-      this.playersYpos[playerId] = players[playerId].posY;
-      this.moveLine(this.players[playerId], players[playerId].posX, this.playersYpos[playerId], players[playerId].height);
-    }
+    this.moveLine(this.players[playerId], players[playerId].posX, players[playerId].posY, players[playerId].height);
   }
 
   private moveLine(line: Phaser.Graphics, origX: number, origY: number, length: number) {

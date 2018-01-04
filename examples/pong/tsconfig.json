@@ -8,6 +8,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noUnusedParameters": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "skipLibCheck": true
   }
 }

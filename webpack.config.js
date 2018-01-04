@@ -7,7 +7,9 @@ const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 module.exports = [
   {
     externals: {
-      'phaser-ce': 'phaser-ce'
+      'phaser-ce': 'phaser-ce',
+      '@reactivex/rxjs': '@reactivex/rxjs',
+      'lodash': 'lodash'
     },
     entry: path.resolve(__dirname, 'src/index.ts'),
     output: {
