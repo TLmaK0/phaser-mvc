@@ -85,17 +85,18 @@ export abstract class View {
 
   private modelWatchs: ModelWatch[] = [];
 
-  private execOnUpdated = (getModel: GetModel, returnModel: GetModel, update: GetModel ) => {
+  private execOnUpdated = (getModel: GetModel, returnModel: GetModel, update?: GetModel ) => {
     const modelWatch = new ModelWatch();
-
     modelWatch.observable = Observable.create(
       (observer: Observer<GetModel>) => modelWatch.observer = observer
+    ).map(
+      (model: any) => _.cloneDeep(model)
     ).distinctUntilChanged(
       (prev: any, next: any) => _.isEqual(prev, next)
-    ).map((model: any) => {
-      let model = returnModel(model);
-      return model;
-    });
+    );
+
+    if (update) modelWatch.observable.map((model: any) => returnModel(model));
+    else update = returnModel;
 
     modelWatch.getModel = getModel;
     modelWatch.observable.subscribe(update);

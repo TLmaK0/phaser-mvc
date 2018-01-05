@@ -2,6 +2,8 @@ import { View, ViewComponentAdder, ExecuteOnModelChange } from 'phaser-mvc';
 import { Pong } from '../models/pong';
 import { Player } from '../models/player';
 
+import * as _ from 'lodash';
+
 /**
  * Players View
  */
@@ -14,16 +16,15 @@ export class PlayersView extends View {
   }
 
   public updateOnModelChange(onChange: ExecuteOnModelChange){
-    onChange((model) => (<Pong>model.pong).players[0].posY, (_model) => 0, this.movePlayer);
-    onChange((model) => (<Pong>model.pong).players[1].posY, (_model) => 1, this.movePlayer);
+    onChange((model) => (<Pong>model.pong).players, this.movePlayers);
   }
 
   public update(){
   }
 
-  private movePlayer = (playerId: number) => {
-    const players = (<Pong>this.model.pong).players;
-    this.moveLine(this.players[playerId], players[playerId].posX, players[playerId].posY, players[playerId].height);
+  private movePlayers = (players: Player[]) => {
+    this.moveLine(this.players[0], players[0].posX, players[0].posY, players[0].height);
+    this.moveLine(this.players[1], players[1].posX, players[1].posY, players[1].height);
   }
 
   private moveLine(line: Phaser.Graphics, origX: number, origY: number, length: number) {
