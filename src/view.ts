@@ -1,10 +1,9 @@
 import * as Phaser from 'phaser-ce';
-import * as _ from 'lodash';
-import { Observable, Observer } from '@reactivex/rxjs';
 
 import { IActionParams } from './i_action_params';
 import { IModel } from './i_model';
-import { ModelWatch, GetModel } from './model_watch';
+import { WatchModel } from './watch_model';
+import { WatchFactory } from './watch_factory';
 
 /**
  * Adds a component to the view and other view components
@@ -20,8 +19,6 @@ export class ViewComponentAdder {
   }
 }
 
-export type ExecuteOnModelChange = (getModel: GetModel, returnModel: GetModel, update: GetModel ) => void;
-
 /**
  * Input and ouput for the application
  */
@@ -31,6 +28,7 @@ export abstract class View {
   private _game: Phaser.Game;
   private _model: IModel;
   private _goTo: (controllerName: string, controllerAction: string, params: IActionParams) => void;
+  private watchFactory: WatchFactory = new WatchFactory();
 
   public refresh() {
     //empty, can be overrided or not
@@ -62,12 +60,12 @@ export abstract class View {
   public createView() {
     const componentAdder = new ViewComponentAdder(this.components, this);
     this.create(componentAdder);
-    this.updateOnModelChange(this.execOnUpdated);
+    this.updateOnModelChange(this.watchFactory);
   }
 
   public updateView() {
     if (!this.initiated) return;
-    this.checkModelWatchs();
+    this.checkWatchModels();
     this.update();
     for (const component of this.components) {
       component.updateComponent();
@@ -79,33 +77,13 @@ export abstract class View {
     this.refresh();
   }
 
-  public updateOnModelChange(_onChange: ExecuteOnModelChange){
+  public updateOnModelChange(_watchFactory: WatchFactory){
     //this should be overrided or not
   }
 
-  private modelWatchs: ModelWatch[] = [];
-
-  private execOnUpdated = (getModel: GetModel, returnModel: GetModel, update?: GetModel ) => {
-    const modelWatch = new ModelWatch();
-    modelWatch.observable = Observable.create(
-      (observer: Observer<GetModel>) => modelWatch.observer = observer
-    ).map(
-      (model: any) => _.cloneDeep(model)
-    ).distinctUntilChanged(
-      (prev: any, next: any) => _.isEqual(prev, next)
-    );
-
-    if (update) modelWatch.observable.map((model: any) => returnModel(model));
-    else update = returnModel;
-
-    modelWatch.getModel = getModel;
-    modelWatch.observable.subscribe(update);
-    this.modelWatchs.push(modelWatch); 
-  }
-
-  private checkModelWatchs(){
-    for(const modelWatch of this.modelWatchs){
-      modelWatch.observer.next(modelWatch.getModel(this.model));
+  private checkWatchModels(){
+    for(const watchModel of this.watchFactory.watchsModel){
+      watchModel.observer.next(watchModel.getModel());
     }
   }
 

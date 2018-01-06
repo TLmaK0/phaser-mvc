@@ -4,6 +4,7 @@
 //   ../../@reactivex/rxjs
 
 import * as Phaser from 'phaser-ce';
+import { Observable } from '@reactivex/rxjs';
 import { Observable, Observer } from '@reactivex/rxjs';
 
 /**
@@ -73,13 +74,6 @@ export interface IViewMap {
     [name: string]: View;
 }
 
-export type GetModel = (model: any) => any;
-export class ModelWatch {
-    observable: Observable<any>;
-    observer: Observer<GetModel>;
-    getModel: GetModel;
-}
-
 /**
     * Adds a component to the view and other view components
     */
@@ -87,7 +81,6 @@ export class ViewComponentAdder {
         constructor(components: ViewComponent[], view: View);
         addComponent<T extends ViewComponent>(component: T): T;
 }
-export type ExecuteOnModelChange = (getModel: GetModel, returnModel: GetModel, update: GetModel) => void;
 /**
     * Input and ouput for the application
     */
@@ -104,7 +97,7 @@ export abstract class View {
         createView(): void;
         updateView(): void;
         refreshView(): void;
-        updateOnModelChange(_onChange: ExecuteOnModelChange): void;
+        updateOnModelChange(_watchFactory: WatchFactory): void;
         protected goTo(controllerName: string, controllerAction: string, params: IActionParams): void;
 }
 /**
@@ -118,5 +111,17 @@ export abstract class ViewComponent {
         createComponent(componentAdder: ViewComponentAdder, view: View): void;
         updateComponent(): void;
         protected readonly game: Phaser.Game;
+}
+
+export class WatchFactory {
+    watchsModel: WatchModel<any>[];
+    constructor();
+    create<T>(getModel: () => T): Observable<T>;
+}
+
+export class WatchModel<T> {
+    observable: Observable<T>;
+    observer: Observer<() => T>;
+    getModel: () => T;
 }
 

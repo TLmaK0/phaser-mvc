@@ -1,4 +1,4 @@
-import { View, ViewComponentAdder, ExecuteOnModelChange } from 'phaser-mvc';
+import { View, ViewComponentAdder, WatchFactory } from 'phaser-mvc';
 import { Pong } from '../models/pong';
 import { Player } from '../models/player';
 
@@ -15,8 +15,8 @@ export class PlayersView extends View {
     this.players.push(this.game.add.graphics(0, 0));
   }
 
-  public updateOnModelChange(onChange: ExecuteOnModelChange){
-    onChange((model) => (<Pong>model.pong).players, this.movePlayers);
+  public updateOnModelChange(watchFactory: WatchFactory){
+    watchFactory.create<Player[]>(() => (<Pong>this.model.pong).players).subscribe(this.movePlayers);
   }
 
   public update(){
@@ -30,10 +30,8 @@ export class PlayersView extends View {
   private moveLine(line: Phaser.Graphics, origX: number, origY: number, length: number) {
     line.clear();
     line.lineStyle(20, 0xffffff);
-    line.moveTo(origX,
-                origY);
-    line.lineTo(origX,
-                origY + length);
+    line.moveTo(origX, origY);
+    line.lineTo(origX, origY + length);
     line.endFill();
   }
 }
