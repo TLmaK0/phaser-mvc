@@ -35,7 +35,7 @@ export class Bootstrap {
     this.game = new Phaser.Game(
       this.width,
       this.height,
-      Phaser.CANVAS,
+      Phaser.HEADLESS,
       'content',
       { preload: this.preload,
         create: this.create,

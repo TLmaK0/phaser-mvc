@@ -1,8 +1,6 @@
 const path = require('path');
 const phaserModulePath = path.join(__dirname, '/node_modules/phaser-ce/');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const glob = require("glob");
-const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 
 module.exports = [
   {
