@@ -23,6 +23,7 @@ export class CannonView extends View {
   public create(_componentAdder: ViewComponentAdder) {
     this.cannon = <Cannon>this.model.cannon;
     this.human = this.cannon.human;
+    console.log(this.human);
 
     this.cannonSprite = this.game.add.sprite(this.cannon.x, this.cannon.y, 'cannon');
     this.cannonSprite.scale.setTo(0.5, 0.5);

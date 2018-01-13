@@ -1,13 +1,12 @@
-import { Body } from 'phaser-mvc';
+import { PhysicBody } from 'phaser-mvc';
 
-@Body
-export class Human {
-  physics: any = {
+export class Human extends PhysicBody{
+  public x: number = 100;
+  public y: number = 100;
+
+  protected physics: any = {
     material: {
-      restitution: 0;
+      restitution: 0.8
     }
-  }
-
-  public x: number;
-  public y: number;
+  };
 }
