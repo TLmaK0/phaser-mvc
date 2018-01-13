@@ -4,8 +4,17 @@
 //   ../../@reactivex/rxjs
 
 import * as Phaser from 'phaser-ce';
+import { AsyncSubject } from '@reactivex/rxjs';
 import { Observable } from '@reactivex/rxjs';
 import { Observable, Observer } from '@reactivex/rxjs';
+
+export function Body<T extends {
+    new (...args: any[]): {};
+}>(target: T): {
+    new (...args: any[]): {
+        _body: Phaser.Physics.P2.Body;
+    };
+} & T;
 
 /**
     */
@@ -22,11 +31,13 @@ export class Bootstrap {
         height: number;
         game: Phaser.Game;
         protected controllers: IControllerMap;
+        static onInit: AsyncSubject<Bootstrap>;
         constructor(width?: number, height?: number);
         static preload(preload: (game: Phaser.Game) => void): void;
         start(controllerName: string, controllerAction: string, params: IActionParams): void;
         preload: () => void;
         create: () => void;
+        createBody(physics: any): Phaser.Physics.P2.Body;
         update: () => void;
         addController<T extends Controller>(name: string, controllerType: new () => T): void;
         goTo(controllerName: string, controllerAction: string, params: IActionParams): void;

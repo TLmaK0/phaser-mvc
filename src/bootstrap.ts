@@ -6,6 +6,7 @@ import * as Phaser from 'phaser-ce';
 import { Controller } from './controller';
 import { IActionParams } from './i_action_params';
 import { IControllerMap } from './i_controller_map';
+import { AsyncSubject } from '@reactivex/rxjs';
 
 /** Bootstrap for the phaser-mvc.
  * Useage:
@@ -22,6 +23,8 @@ export class Bootstrap {
   public game: Phaser.Game;
   protected controllers: IControllerMap = {};
   private startAction: [string, string, IActionParams];
+
+  public static onInit: AsyncSubject<Bootstrap> = new AsyncSubject<Bootstrap>();
 
   public constructor(public width: number = 1920, public height: number = 1080){
   }
@@ -49,8 +52,30 @@ export class Bootstrap {
   }
 
   public create = (): void => {
+    this.worldCustomizations();
+
+    Bootstrap.onInit.next(this);
+    Bootstrap.onInit.complete();
+
     this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     this.goTo(this.startAction[0], this.startAction[1], this.startAction[2]);
+  }
+
+  private worldMaterial: Phaser.Physics.P2.Material;
+  private worldCustomizations(){
+    this.game.physics.startSystem(Phaser.Physics.P2JS);
+    this.worldMaterial = this.game.physics.p2.createMaterial('worldMaterial');
+this.game.physics.p2.setWorldMaterial(this.worldMaterial, true, true, true, true);
+    this.game.physics.p2.gravity.y = 100;
+    this.game.physics.p2.restitution = 0.8;
+  }
+
+  public createBody(physics: any){
+    const body = new Phaser.Physics.P2.Body(this.game, this.game.add.sprite(0,0, null), 0, 0);
+    var material = this.game.physics.p2.createMaterial('humanMaterial', body);
+    var contactMaterial = this.game.physics.p2.createContactMaterial(material, this.worldMaterial);
+    contactMaterial.restitution = physics['restitution'];
+    return body;
   }
 
   public update = (): void => {

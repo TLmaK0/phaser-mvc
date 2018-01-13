@@ -9,7 +9,10 @@ export class PlayerKeysView extends View {
       this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT),
       this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)
     ]).subscribe(this.moveCannon);
-    watchFactory.create<boolean>(() => this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)).subscribe(this.launchHuman);
+
+    watchFactory.create<boolean>(() => this.game.input.keyboard.isDown(
+      Phaser.Keyboard.SPACEBAR
+    )).subscribe(this.launchHuman);
   }
 
   private moveCannon = (areKeysDown: [boolean, boolean]) => {
