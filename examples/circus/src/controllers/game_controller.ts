@@ -15,6 +15,6 @@ export class GameController extends Controller {
     const circus = new Circus();
     this.model.circus = circus;
     this.render(this.views.playerKeys);
-    this.goTo('CannonController', 'prepareCannon', { cannon: circus.cannon });
+    this.goTo('CircusController', 'prepareCannon', { cannon: circus.cannon, trampoline: circus.trampoline });
   }
 }

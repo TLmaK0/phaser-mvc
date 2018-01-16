@@ -1,13 +1,28 @@
 import { Human } from './human';
 
 export class Cannon {
-  public x: number = 100;
-  public y: number = 100;
-  public angle: number = 45;
+  public x: number;
+  public y: number;
+  public angle: number = -45;
 
   private cannonUpdateTimer: NodeJS.Timer;
 
-  constructor(public human: Human){
+  private _human: Human;
+  private _humanLaunched: boolean = false;
+
+  public insertHuman(human: Human){
+    human.x = this.x - 33;
+    human.y = this.y;
+    human.angle = this.angle;
+    this._human = human;
+  }
+
+  public get human() {
+    return this._human;
+  }
+
+  public hasHuman() {
+    return !!this._human;
   }
 
   public rotateClockwise() {
@@ -27,7 +42,11 @@ export class Cannon {
   }
 
   public launchHuman(){
-    console.log('launch....');
+    if (!this._human) return;
+    const angle =  this.angle * (Math.PI / 180);
+    this._human.velocity.x = Math.cos(angle) * 300;
+    this._human.velocity.y = Math.sin(angle) * 300;
+    this._human = null;
   }
 
   private rotate(angle: number) {

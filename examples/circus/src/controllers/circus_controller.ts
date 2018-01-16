@@ -1,17 +1,18 @@
 import { Controller, IActionParams, IViewMap } from 'phaser-mvc';
-import { CannonView } from '../views/cannon_view';
+import { CircusView } from '../views/circus_view';
 import { Cannon } from '../models/cannon';
 
 /**
  * Game controller
  */
-export class CannonController extends Controller {
+export class CircusController extends Controller {
   public views: IViewMap = {
-    cannon: new CannonView()
+    cannon: new CircusView()
   };
 
   public prepareCannon = (params: IActionParams) => {
     this.model.cannon = params.cannon;
+    this.model.trampoline = params.trampoline;
     this.render(this.views.cannon);
   }
 

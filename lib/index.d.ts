@@ -8,6 +8,8 @@ import { AsyncSubject } from '@reactivex/rxjs';
 import { Observable } from '@reactivex/rxjs';
 import { Observable, Observer } from '@reactivex/rxjs';
 
+export function BodyProperty(target: any, key: string): void;
+
 /**
     */
 /** Bootstrap for the phaser-mvc.
@@ -29,6 +31,7 @@ export class Bootstrap {
         start(controllerName: string, controllerAction: string, params: IActionParams): void;
         preload: () => void;
         create: () => void;
+        static worldMaterialOptions: any;
         createBody(body: PhysicBody): Phaser.Physics.P2.Body;
         update: () => void;
         addController<T extends Controller>(name: string, controllerType: new () => T): void;
@@ -84,13 +87,16 @@ export interface IViewMap {
 /**
   */
 export class PhysicBody {
+    x: number;
+    y: number;
+    angle: number;
+    velocity: [number, number];
+    mass: number;
     protected physics: any;
     constructor();
+    addShape(shape: p2.Shape): void;
     protected onBootstrapInit(bootstrap: Bootstrap): void;
     getPhysicsConfiguration(): any;
-    readonly angle: number;
-    readonly x: number;
-    readonly y: number;
 }
 
 /**

@@ -16,13 +16,13 @@ export class PlayerKeysView extends View {
   }
 
   private moveCannon = (areKeysDown: [boolean, boolean]) => {
-    if (areKeysDown[0]) this.goTo("CannonController", "rotateCannon", { direction: 'clockwise' });
-    else if (areKeysDown[1]) this.goTo("CannonController", "rotateCannon", { direction: 'counter-clockwise' });
-    else this.goTo("CannonController", "rotateCannonStop", {});
+    if (areKeysDown[0]) this.goTo("CircusController", "rotateCannon", { direction: 'clockwise' });
+    else if (areKeysDown[1]) this.goTo("CircusController", "rotateCannon", { direction: 'counter-clockwise' });
+    else this.goTo("CircusController", "rotateCannonStop", {});
   }
 
   private launchHuman = (launchHuman: boolean) => {
-    if (launchHuman) this.goTo("CannonController", "launchHuman", {});
+    if (launchHuman) this.goTo("CircusController", "launchHuman", {});
   }
 }
 
