@@ -25,10 +25,15 @@ export class Bootstrap {
   public game: Phaser.Game;
   protected controllers: IControllerMap = {};
   private startAction: [string, string, IActionParams];
+  private worldMaterialOptions: any = {
+    restitution: 0
+  };
+
 
   public static onInit: AsyncSubject<Bootstrap> = new AsyncSubject<Bootstrap>();
 
-  public constructor(public width: number = 1920, public height: number = 1080){
+  public constructor(public width: number = 1920, public height: number = 1080, worldMaterialOptions?: any){
+    if (worldMaterialOptions) this.worldMaterialOptions = worldMaterialOptions;
   }
 
   public static preload(preload: (game: Phaser.Game) => void): void {
@@ -63,40 +68,47 @@ export class Bootstrap {
     Bootstrap.onInit.complete();
   }
 
-  private worldMaterial: Phaser.Physics.P2.Material;
-  public static worldMaterialOptions: any = {};
+  private materialsAndOptions: Array<[Phaser.Physics.P2.Material, any]> = [];
 
   private worldCustomizations(){
     this.game.physics.startSystem(Phaser.Physics.P2JS);
-    this.worldMaterial = this.game.physics.p2.createMaterial('worldMaterial');
-    Bootstrap.worldMaterialOptions = {
-      restitution: 0
-    };
+    const worldMaterial = this.game.physics.p2.createMaterial('worldMaterial');
 
-    this.game.physics.p2.setWorldMaterial(this.worldMaterial, true, true, true, true);
+    this.materialsAndOptions.push([worldMaterial, this.worldMaterialOptions]);
+
+    this.game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
     this.game.physics.p2.gravity.y = 100;
+
   }
 
-  public createBody(body: PhysicBody){
-    const physicBody = new Phaser.Physics.P2.Body(this.game, this.game.add.sprite(0,0, null), body.x, body.y, body.mass);
-    physicBody.velocity.x = body.velocity[0];
-    physicBody.velocity.y = body.velocity[1];
-    physicBody.angle = body.angle;
 
-    const material = this.game.physics.p2.createMaterial(Guid.newGuid(), physicBody);
-    const options = body.getPhysicsConfiguration();
+  public createBody(physicBody: PhysicBody){
+    const body = new Phaser.Physics.P2.Body(this.game, this.game.add.sprite(0,0, null), physicBody.x, physicBody.y, physicBody.mass);
+    body.velocity.x = physicBody.velocity[0];
+    body.velocity.y = physicBody.velocity[1];
+    body.angle = physicBody.angle;
 
-    this.generateContacts(material, options.material);
-    return physicBody;
-  }
-
-  private generateContacts(material: Phaser.Physics.P2.Material, options: any){
-    let contactOptions: any = {};
-    for (const key in options){
-      contactOptions[key] = Bootstrap.worldMaterialOptions[key] + options[key];
+    const material = this.game.physics.p2.createMaterial(Guid.newGuid(), body);
+    const bodyOptions = physicBody.getPhysicsConfiguration();
+    for(const materialAndOptions of this.materialsAndOptions){
+      this.generateContacts(material, bodyOptions.material, materialAndOptions[0], materialAndOptions[1]);
     }
 
-    const contactMaterial = this.game.physics.p2.createContactMaterial(material, this.worldMaterial, contactOptions);
+    this.materialsAndOptions.push([material, bodyOptions.material]);
+    return body;
+  }
+
+  private generateContacts(material1: Phaser.Physics.P2.Material,
+                           options1: any,
+                           material2: Phaser.Physics.P2.Material,
+                           options2: any
+                          ){
+    let contactOptions: any = {};
+    for (const key in options1){
+      contactOptions[key] = options1[key] + options2[key];
+    }
+
+    this.game.physics.p2.createContactMaterial(material1, material2, contactOptions);
   }
 
   public update = (): void => {

@@ -26,7 +26,10 @@ export class CircusView extends View {
   public create(_componentAdder: ViewComponentAdder) {
     this.cannon = <Cannon>this.model.cannon;
     this.human = this.cannon.human;
-    const trampoline: Trampoline = this.trampoline;
+    const trampoline = <Trampoline>this.model.trampoline;
+
+    const trampolineSprite = this.game.add.sprite(trampoline.x, trampoline.y, 'trampoline');
+    trampolineSprite.scale.setTo(0.5, 0.5);
 
     this.humanSprite = this.game.add.sprite(this.human.x, this.human.y, 'human');
     this.humanSprite.scale.setTo(0.5, 0.5);
@@ -37,8 +40,6 @@ export class CircusView extends View {
     this.cannonSprite.anchor.setTo(0.5, 0.5);
     this.cannonSprite.angle = this.cannon.angle;
 
-    const trampolineSprite = this.game.add.sprite(this.model.trampoline.x, this.model.trampoline.y, 'trampoline');
-    trampolineSprite.scale.setTo(0.5, 0.5);
   }
 
   public updateOnModelChange(watchFactory: WatchFactory){

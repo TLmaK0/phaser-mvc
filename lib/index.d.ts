@@ -86,7 +86,7 @@ export interface IViewMap {
 
 /**
   */
-export class PhysicBody {
+export abstract class PhysicBody {
     x: number;
     y: number;
     angle: number;
@@ -94,7 +94,7 @@ export class PhysicBody {
     mass: number;
     protected physics: any;
     constructor();
-    addShape(shape: p2.Shape): void;
+    createBody(body: Phaser.Physics.P2.Body): void;
     protected onBootstrapInit(bootstrap: Bootstrap): void;
     getPhysicsConfiguration(): any;
 }

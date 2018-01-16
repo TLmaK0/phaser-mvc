@@ -1,6 +1,6 @@
 import { Controller, IViewMap } from 'phaser-mvc';
 import { Circus } from '../models/circus';
-import { CannonController } from './cannon_controller';
+import { CircusController } from './circus_controller';
 import { PlayerKeysView } from '../views/player_keys_view';
 
 /**

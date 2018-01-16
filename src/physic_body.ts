@@ -28,7 +28,7 @@ export abstract class PhysicBody {
     Bootstrap.onInit.subscribe(this.onBootstrapInit.bind(this));
   }
 
-  public createBody(body: Phaser.Physics.P2.Body){
+  public createBody(_body: Phaser.Physics.P2.Body){
   }
 
   protected onBootstrapInit(bootstrap: Bootstrap){
