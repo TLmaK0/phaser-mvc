@@ -26,13 +26,12 @@ export class Bootstrap {
         game: Phaser.Game;
         protected controllers: IControllerMap;
         static onInit: AsyncSubject<Bootstrap>;
-        constructor(width?: number, height?: number);
+        constructor(width?: number, height?: number, worldMaterialOptions?: any);
         static preload(preload: (game: Phaser.Game) => void): void;
         start(controllerName: string, controllerAction: string, params: IActionParams): void;
         preload: () => void;
         create: () => void;
-        static worldMaterialOptions: any;
-        createBody(body: PhysicBody): Phaser.Physics.P2.Body;
+        createBody(physicBody: PhysicBody): Phaser.Physics.P2.Body;
         update: () => void;
         addController<T extends Controller>(name: string, controllerType: new () => T): void;
         goTo(controllerName: string, controllerAction: string, params: IActionParams): void;
@@ -94,7 +93,7 @@ export abstract class PhysicBody {
     mass: number;
     protected physics: any;
     constructor();
-    createBody(body: Phaser.Physics.P2.Body): void;
+    createBody(_body: Phaser.Physics.P2.Body): void;
     protected onBootstrapInit(bootstrap: Bootstrap): void;
     getPhysicsConfiguration(): any;
 }

@@ -1,8 +1,8 @@
-# Hello World!
+# Circus
 
 ```npm install```
 ```npm start```
 
-Use W,S and O,K keys to move players
+Use arrows to move cannon and space to launch human
 
-![Pong](pong.png)
+![Circus](circus.png)

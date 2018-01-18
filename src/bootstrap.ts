@@ -83,11 +83,12 @@ export class Bootstrap {
 
 
   public createBody(physicBody: PhysicBody){
-    const body = new Phaser.Physics.P2.Body(this.game, this.game.add.sprite(0,0, null), physicBody.x, physicBody.y, physicBody.mass);
+    const sprite = this.game.add.sprite(0,0, null);
+    this.game.physics.p2.enable(sprite);
+    const body = new Phaser.Physics.P2.Body(this.game, sprite, physicBody.x, physicBody.y, physicBody.mass);
     body.velocity.x = physicBody.velocity[0];
     body.velocity.y = physicBody.velocity[1];
     body.angle = physicBody.angle;
-
     const material = this.game.physics.p2.createMaterial(Guid.newGuid(), body);
     const bodyOptions = physicBody.getPhysicsConfiguration();
     for(const materialAndOptions of this.materialsAndOptions){

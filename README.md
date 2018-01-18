@@ -6,9 +6,11 @@ An MVC framework for Phaser
 
 ```npm install phaser-mvc```
 
-## Run examples at /examples
+## Take a look to examples at /examples
 
 ![Pong](examples/pong/pong.png)
+
+![Circus](examples/circus/circus.png)
 
 ## How to use
 

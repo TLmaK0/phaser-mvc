@@ -10,7 +10,6 @@ export class Human extends PhysicBody{
   };
 
   public createBody(body: Phaser.Physics.P2.Body){
-    body.clearShapes();
     body.addCircle(25, 90, 25);
     body.addRectangle(75, 30, 35, 30, 0);
   }
