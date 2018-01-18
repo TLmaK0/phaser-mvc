@@ -1,14 +1,18 @@
 ## phaser-mvc
 
-An MVC framework for Phaser
+An MVC framework for Phaser.
+
+note: this is only for testing purposes
 
 ## install
 
 ```npm install phaser-mvc```
 
-## Run examples at /examples
+## Take a look to examples at /examples
 
 ![Pong](examples/pong/pong.png)
+
+![Circus](examples/circus/circus.png)
 
 ## How to use
 

@@ -1,5 +1,7 @@
-import { Bootstrap, View, ViewComponentAdder  } from 'phaser-mvc';
+import { Bootstrap, View, ViewComponentAdder, WatchFactory  } from 'phaser-mvc';
 import { Pong } from '../models/pong';
+import { Ball } from '../models/ball';
+import { Score } from '../models/score';
 import { Scoreboard } from './components/scoreboard';
 
 const pongWav = require('../assets/audios/pong.wav');
@@ -28,45 +30,30 @@ export class FieldView extends View {
     const bounds = (<Pong>this.model.pong).bounds;
     this.scoreboard = componentAdder.addComponent(new Scoreboard(bounds));
     this.createNet();
-    this.createBall();
+    this.ball = this.game.add.graphics(0, 0);
     this.pongEffect = this.game.add.audio('pongWav');
     this.failEffect = this.game.add.audio('failWav');
   }
 
-  public update() {
+  public updateOnModelChange(watchFactory: WatchFactory){
     const pong = <Pong>this.model.pong;
-    if (pong.score.player1 != this.scorePlayer1) {
-      this.scorePlayer1 = pong.score.player1;
-      this.scoreboard.scorePlayer1 = this.scorePlayer1;
-      this.failEffect.play();
-    }
-
-    if (pong.score.player2 != this.scorePlayer2) {
-      this.scorePlayer2 = pong.score.player2;
-      this.scoreboard.scorePlayer2 = this.scorePlayer2;
-      this.failEffect.play();
-    }
-
-    if (pong.ball.slope != this.lastSlope || pong.ball.speed != this.lastSpeed){
-      this.lastSlope = pong.ball.slope;
-      this.lastSpeed = pong.ball.speed;
-      this.pongEffect.play();
-    }
-
-    this.updateBall();
+    watchFactory.create<[number, number]>(() => [pong.ball.posX, pong.ball.posY]).subscribe(this.updateBall);
+    watchFactory.create<Score>(() => (<Pong>this.model.pong).score).subscribe(this.updateScore);
+    watchFactory.create<[number, number]>(() => [pong.ball.slope, pong.ball.speed]).subscribe(this.bounceBall);
   }
 
-  private createBall() {
-    this.ball = this.game.add.graphics(0, 0);
-    this.updateBall();
+  private bounceBall = (_slopeSpeed: [number, number]) => {
+    this.pongEffect.play();
   }
 
-  private updateBall() {
-    const ballModel = (<Pong>this.model.pong).ball;
-    if (this.lastBallPosition[0] !== ballModel.posX || this.lastBallPosition[1] !== ballModel.posY) {
-      this.lastBallPosition = [ballModel.posX, ballModel.posY];
-      this.drawVerticalLine(this.ball, ballModel.posX, ballModel.posY, 10);
-    }
+  private updateScore = (score: Score) => {
+    this.failEffect.play();
+    this.scoreboard.scorePlayer1 = score.player1;
+    this.scoreboard.scorePlayer2 = score.player2;
+  }
+
+  private updateBall = (pos: [number, number]) => {
+    this.drawVerticalLine(this.ball, pos[0], pos[1], 10);
   }
 
   private createNet() {

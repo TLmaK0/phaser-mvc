@@ -11,7 +11,9 @@
     "noUnusedParameters": true,
     "moduleResolution": "node",
     "declaration": true,
-    "declarationDir": "typings"
+    "declarationDir": "typings",
+    "skipLibCheck": true,
+    "experimentalDecorators": true
   },
   "include": [
     "src/**/*"

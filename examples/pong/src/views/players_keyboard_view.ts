@@ -1,47 +1,36 @@
-import { View, ViewComponentAdder } from 'phaser-mvc';
+import { View, ViewComponentAdder, WatchFactory } from 'phaser-mvc';
 
 /**
  * Players View
  */
 export class PlayersKeyboardView extends View {
-  playersLastKey: number[] = [Phaser.Keyboard.ZERO, Phaser.Keyboard.ZERO];
-  public create(_componentAdder: ViewComponentAdder) { 
+  private watchFactory: WatchFactory;
 
+  public updateOnModelChange(watchFactory: WatchFactory){
+    this.watchFactory = watchFactory;
+    this.watchForKeys(0, [Phaser.Keyboard.W, Phaser.Keyboard.S]);
+    this.watchForKeys(1, [Phaser.Keyboard.O, Phaser.Keyboard.K]);
   }
 
-  public update(){
-    if (this.keyboardDownKey(Phaser.Keyboard.W, 0)) this.movePlayer(0, 'up');
-    if (this.keyboardDownKey(Phaser.Keyboard.S, 0)) this.movePlayer(0, 'down');
-    if (this.keyboardDownKey(Phaser.Keyboard.O, 1)) this.movePlayer(1, 'up');
-    if (this.keyboardDownKey(Phaser.Keyboard.K, 1)) this.movePlayer(1, 'down');
-
-    this.stopPlayerIfNeeded([Phaser.Keyboard.S, Phaser.Keyboard.W], 0);
-    this.stopPlayerIfNeeded([Phaser.Keyboard.DOWN, Phaser.Keyboard.UP], 1);
+  private watchKeyPlayer = (playerKeyPressed: [number, boolean, boolean]) => {
+    if (playerKeyPressed[1] || playerKeyPressed[2]) {
+      this.movePlayer(playerKeyPressed[0], playerKeyPressed[1] ? 'up' : 'down');
+    } else this.stopPlayer(playerKeyPressed[0]);
   }
 
-  private keysPressed(keys: number[]) {
-    const keyboard = this.game.input.keyboard;
-    let pressed = false;
-    for (const key of keys) {
-      pressed = pressed || keyboard.isDown(key);
-    }
-    return pressed;
+  private watchForKeys(playerId: number, keys: number[]){
+    this.watchFactory.create<[number, boolean, boolean]>(() => [
+      playerId,
+      this.game.input.keyboard.isDown(keys[0]),
+      this.game.input.keyboard.isDown(keys[1])
+    ]).subscribe(this.watchKeyPlayer);
   }
 
-  private stopPlayerIfNeeded(keys: number[], playerId: number) {
-    if (this.playersLastKey[playerId] !== Phaser.Keyboard.ZERO && !this.keysPressed(keys)) {
-      this.playersLastKey[playerId] = Phaser.Keyboard.ZERO;
-      this.goTo('PlayersController', 'stopPlayer', { player: playerId });
-    }
-  }
-
-  private movePlayer(playerId: number, direction: string) {
+  private movePlayer(playerId: number, direction: string){
     this.goTo('PlayersController', 'movePlayer', { player: playerId, direction: direction });
   }
 
-  private keyboardDownKey(key: number, playerId: number) {
-    const newKey = this.playersLastKey[playerId] !== key && this.game.input.keyboard.isDown(key);
-    if (newKey) this.playersLastKey[playerId] = key;
-    return newKey;
+  private stopPlayer(playerId: number){
+    this.goTo('PlayersController', 'stopPlayer', { player: playerId });
   }
 }

@@ -1,4 +1,4 @@
-# Hello World!
+# Pong
 
 ```npm install```
 ```npm start```

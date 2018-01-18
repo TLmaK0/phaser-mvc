@@ -2,6 +2,8 @@ import * as Phaser from 'phaser-ce';
 
 import { IActionParams } from './i_action_params';
 import { IModel } from './i_model';
+import { WatchModel } from './watch_model';
+import { WatchFactory } from './watch_factory';
 
 /**
  * Adds a component to the view and other view components
@@ -26,6 +28,7 @@ export abstract class View {
   private _game: Phaser.Game;
   private _model: IModel;
   private _goTo: (controllerName: string, controllerAction: string, params: IActionParams) => void;
+  private watchFactory: WatchFactory = new WatchFactory();
 
   public refresh() {
     //empty, can be overrided or not
@@ -57,10 +60,12 @@ export abstract class View {
   public createView() {
     const componentAdder = new ViewComponentAdder(this.components, this);
     this.create(componentAdder);
+    this.updateOnModelChange(this.watchFactory);
   }
 
   public updateView() {
     if (!this.initiated) return;
+    this.checkWatchModels();
     this.update();
     for (const component of this.components) {
       component.updateComponent();
@@ -70,6 +75,16 @@ export abstract class View {
   public refreshView() {
     if (!this.initiated) throw EvalError('View is not rendered please render it before refresh.');
     this.refresh();
+  }
+
+  public updateOnModelChange(_watchFactory: WatchFactory){
+    //this should be overrided or not
+  }
+
+  private checkWatchModels(){
+    for(const watchModel of this.watchFactory.watchsModel){
+      watchModel.observer.next(watchModel.getModel());
+    }
   }
 
   protected goTo(controllerName: string, controllerAction: string, params: IActionParams): void {
