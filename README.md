@@ -1,6 +1,8 @@
 ## phaser-mvc
 
-An MVC framework for Phaser
+An MVC framework for Phaser.
+
+note: this is only for testing purposes
 
 ## install
 
