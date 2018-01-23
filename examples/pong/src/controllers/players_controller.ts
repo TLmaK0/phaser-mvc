@@ -1,40 +1,37 @@
-import { Controller, IActionParams, IViewMap } from 'phaser-mvc';
+import { Controller } from 'phaser-mvc';
 import { Pong } from '../models/pong';
 import { PlayersKeyboardView } from '../views/players_keyboard_view';
 import { PlayersView } from '../views/players_view';
 
 export class PlayersController extends Controller {
-  public views: IViewMap = {
-    players: new PlayersView(),
-    playersKeyboard: new PlayersKeyboardView()
-  };
+  playersView: PlayersView = new PlayersView();
+  playersKeyboardView: PlayersKeyboardView = new PlayersKeyboardView();
+  pong: Pong;
 
-  public preparePlayers = (params: IActionParams) => {
-    this.model.pong = <Pong>params.pong;
-    this.render(this.views.players);
-    this.render(this.views.playersKeyboard);
+  public preparePlayers = (pong: Pong) => {
+    this.pong = pong;
+    this.playersView.pong = this.pong;
+    this.playersKeyboardView.movePlayer = this.movePlayer;
+    this.playersKeyboardView.stopPlayer = this.stopPlayer;
+
+    this.playersView.show();
+    this.playersKeyboardView.show();
   }
 
-  public movePlayer = (params: IActionParams) => {
-    const playerId = <number>params.player;
-    const direction = <string>params.direction;
-
-    const pong = <Pong> this.model.pong;
-
+  public movePlayer = (playerId: number, direction: string) => {
     switch (direction) {
       case 'up':
-        pong.movePlayerUp(playerId);
+        this.pong.movePlayerUp(playerId);
         break;
       case 'down':
-        pong.movePlayerDown(playerId);
+        this.pong.movePlayerDown(playerId);
         break;
       default:
         break;
     }
   }
 
-  public stopPlayer = (params: IActionParams) => {
-    const pong = <Pong> this.model.pong;
-    pong.stopPlayer(<number>params.player);
+  public stopPlayer = (playerId: number) => {
+    this.pong.stopPlayer(playerId);
   }
 }

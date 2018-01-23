@@ -26,7 +26,10 @@
     "typings": "^2.1.1",
     "webpack": "^3.3.0",
     "phaser-ce": "^2.8.2",
-    "phaser-mvc": "^0.0.3",
+    "phaser-mvc": "^0.10.0",
     "pixi": "^0.3.1"
+  },
+  "dependencies": {
+    "@reactivex/rxjs": "^5.4.2"
   }
 }

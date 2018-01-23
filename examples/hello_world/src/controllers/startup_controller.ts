@@ -6,16 +6,15 @@ import { StartupView } from '../views/startup_view';
  * Startup controller
  */
 export class StartupController extends Controller {
-  public views: IViewMap = {
-    startup: new StartupView()
-  };
+  private startupView: StartupView;
 
-  constructor() {
+  constructor(){
     super();
-    this.model.welcomeMessage = 'Hello world!';
+    this.startupView = new StartupView(this);
+    this.startupView.welcomeMessage = 'Hello world!';
   }
 
   public welcome = () => {
-    this.render(this.views.startup);
+    this.startupView.show();
   }
 }

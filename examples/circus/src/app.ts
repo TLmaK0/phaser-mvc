@@ -1,13 +1,10 @@
 import { Bootstrap } from 'phaser-mvc';
 import { GameController } from './controllers/game_controller';
-import { CircusController } from './controllers/circus_controller';
 
 /*
  * Bootstrap game
  */
 window.onload = () => {
-  const boot = new Bootstrap(1000, 700, { restitution: 0 });
-  boot.addController('GameController', GameController);
-  boot.addController('CircusController', CircusController);
-  boot.start('GameController', 'startGame', {});
+  Bootstrap.worldConfiguration.bounds = { width: 1000, height: 750 };
+  Bootstrap.run(new GameController().startGame);
 };

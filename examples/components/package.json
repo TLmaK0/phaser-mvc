@@ -1,6 +1,6 @@
 {
   "name": "components",
-  "version": "0.0.1",
+  "version": "0.10.0",
   "description": "Example for phaser-mvc components",
   "main": "app.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "html-webpack-externals-plugin": "^3.6.0",
     "html-webpack-plugin": "^2.29.0",
     "phaser-ce": "^2.8.2",
-    "phaser-mvc": "^0.0.3",
+    "phaser-mvc": "^0.10.0",
     "pixi": "^0.3.1",
     "source-map-loader": "^0.2.1",
     "ts-loader": "^2.3.1",
@@ -29,5 +29,9 @@
     "typescript": "^2.4.2",
     "typings": "^2.1.1",
     "webpack": "^3.3.0"
+  },
+  "dependencies": {
+    "@reactivex/rxjs": "^5.5.6",
+    "lodash": "^4.17.4"
   }
 }

@@ -4,6 +4,10 @@ import { View, ViewComponentAdder, WatchFactory } from 'phaser-mvc';
  * Players Keys View
  */
 export class PlayerKeysView extends View {
+  rotateCannon: (direction: string) => void;
+  rotateCannonStop: () => void;
+  launchHuman: () => void;
+
   public updateOnModelChange(watchFactory: WatchFactory){
     watchFactory.create<[boolean, boolean]>(() => [
       this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT),
@@ -12,17 +16,17 @@ export class PlayerKeysView extends View {
 
     watchFactory.create<boolean>(() => this.game.input.keyboard.isDown(
       Phaser.Keyboard.SPACEBAR
-    )).subscribe(this.launchHuman);
+    )).subscribe(this.launchHumanNow);
   }
 
   private moveCannon = (areKeysDown: [boolean, boolean]) => {
-    if (areKeysDown[0]) this.goTo("CircusController", "rotateCannon", { direction: 'clockwise' });
-    else if (areKeysDown[1]) this.goTo("CircusController", "rotateCannon", { direction: 'counter-clockwise' });
-    else this.goTo("CircusController", "rotateCannonStop", {});
+    if (areKeysDown[0]) this.rotateCannon('clockwise');
+    else if (areKeysDown[1]) this.rotateCannon('counter-clockwise');
+    else this.rotateCannonStop();
   }
 
-  private launchHuman = (launchHuman: boolean) => {
-    if (launchHuman) this.goTo("CircusController", "launchHuman", {});
+  private launchHumanNow = (launchHuman: boolean) => {
+    if (launchHuman) this.launchHuman();
   }
 }
 

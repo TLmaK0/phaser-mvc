@@ -24,63 +24,26 @@ export class Bootstrap {
         width: number;
         height: number;
         game: Phaser.Game;
-        protected controllers: IControllerMap;
+        static readonly instance: Bootstrap;
         static onInit: AsyncSubject<Bootstrap>;
         constructor(width?: number, height?: number, worldMaterialOptions?: any);
         static preload(preload: (game: Phaser.Game) => void): void;
-        start(controllerName: string, controllerAction: string, params: IActionParams): void;
+        static run(defaultAction: () => void): void;
         preload: () => void;
         create: () => void;
-        createBody(physicBody: PhysicBody): Phaser.Physics.P2.Body;
         update: () => void;
-        addController<T extends Controller>(name: string, controllerType: new () => T): void;
-        goTo(controllerName: string, controllerAction: string, params: IActionParams): void;
+        registerView(view: View): void;
+        createBody(physicBody: PhysicBody): Phaser.Physics.P2.Body;
 }
 
 /**
   * Controller accepts input from view and converts modifieds the model.
   */
 export abstract class Controller {
-    views: IViewMap;
-    bootstrap: Bootstrap;
-    model: IModel;
-    readonly game: Phaser.Game;
-    goTo: (controllerName: string, controllerAction: string, params: IActionParams) => void;
-    getView(viewName: string): View;
-    protected render(view: View): void;
-    protected refresh(view: View): void;
 }
 
 export class Guid {
     static newGuid(): string;
-}
-
-/**
-  * Params for controller action
-  */
-export interface IActionParams {
-    [name: string]: {};
-}
-
-/**
-  * Repository of controllers
-  */
-export interface IControllerMap {
-    [name: string]: Controller;
-}
-
-/**
-  * A model interface to use in controller
-  */
-export interface IModel {
-    [name: string]: {};
-}
-
-/**
-  * View interface respository for controlelr
-  */
-export interface IViewMap {
-    [name: string]: View;
 }
 
 /**
@@ -110,19 +73,15 @@ export class ViewComponentAdder {
     */
 export abstract class View {
         protected components: ViewComponent[];
-        protected initiated: boolean;
+        constructor(bootstrap?: Bootstrap);
         refresh(): void;
         create(_componentAdder: ViewComponentAdder): void;
         preload(): void;
         update(): void;
-        init(game: Phaser.Game, model: IModel, goTo: (controllerName: string, controllerAction: string, params: IActionParams) => void): void;
+        show(): void;
         readonly game: Phaser.Game;
-        readonly model: IModel;
-        createView(): void;
         updateView(): void;
-        refreshView(): void;
         updateOnModelChange(_watchFactory: WatchFactory): void;
-        protected goTo(controllerName: string, controllerAction: string, params: IActionParams): void;
 }
 /**
     * Component to be showed in view

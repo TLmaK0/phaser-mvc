@@ -1,6 +1,6 @@
 {
   "name": "phaser-mvc",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "MVC for phaser",
   "main": "lib/phaser-mvc.min.js",
   "typings": "lib/index.d.ts",
@@ -27,6 +27,7 @@
   "dependencies": {
     "@reactivex/rxjs": "^5.5.6",
     "@types/lodash": "^4.14.91",
+    "deprecated-decorator": "^0.1.6",
     "lodash": "^4.17.4",
     "phaser-ce": "^2.9.1",
     "pixi": "^0.3.1"

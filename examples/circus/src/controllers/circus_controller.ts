@@ -1,34 +1,41 @@
-import { Controller, IActionParams, IViewMap } from 'phaser-mvc';
+import { Controller } from 'phaser-mvc';
 import { CircusView } from '../views/circus_view';
 import { Cannon } from '../models/cannon';
+import { Trampoline } from '../models/trampoline';
+import { PlayerKeysView } from '../views/player_keys_view';
 
 /**
- * Game controller
+ * Circus controller
  */
 export class CircusController extends Controller {
-  public views: IViewMap = {
-    cannon: new CircusView()
-  };
+  circusView = new CircusView();
+  playerKeysView = new PlayerKeysView();
+  cannon: Cannon;
 
-  public prepareCannon = (params: IActionParams) => {
-    this.model.cannon = params.cannon;
-    this.model.trampoline = params.trampoline;
-    this.render(this.views.cannon);
+  public prepareCannon = (cannon: Cannon, trampoline: Trampoline) => {
+    this.cannon = cannon;
+
+    this.playerKeysView.rotateCannon = this.rotateCannon;
+    this.playerKeysView.rotateCannonStop = this.rotateCannonStop;
+    this.playerKeysView.launchHuman = this.launchHuman;
+    this.playerKeysView.show();
+
+    this.circusView.cannon = this.cannon;
+    this.circusView.trampoline = trampoline;
+    this.circusView.human = cannon.human;
+    this.circusView.show();
   }
 
-  public rotateCannon = (params: IActionParams) => {
-    const cannon = <Cannon>this.model.cannon;
-    if (params.direction == 'clockwise') cannon.rotateClockwise();
-    else cannon.rotateCounterclockwise();
+  public rotateCannon = (direction: string) => {
+    if (direction == 'clockwise') this.cannon.rotateClockwise();
+    else this.cannon.rotateCounterclockwise();
   }
 
-  public rotateCannonStop = (_params: IActionParams) => {
-    const cannon = <Cannon>this.model.cannon;
-    cannon.rotateStop();
+  public rotateCannonStop = () => {
+    this.cannon.rotateStop();
   }
 
-  public launchHuman = (_params: IActionParams) => {
-    const cannon = <Cannon>this.model.cannon;
-    cannon.launchHuman();
+  public launchHuman = () => {
+    this.cannon.launchHuman();
   }
 }

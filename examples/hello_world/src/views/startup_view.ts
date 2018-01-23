@@ -1,14 +1,16 @@
 import { View } from 'phaser-mvc';
-import { ViewComponentAdder } from 'phaser-mvc';
+import { Controller, ViewComponentAdder } from 'phaser-mvc';
 
 /**
  * Startup View
  */
 export class StartupView extends View {
+  public welcomeMessage: string;
+
   public create(_componentAdder: ViewComponentAdder) {
     this.game.add.text(100,
                        100,
-                       'Hello World!',
+                       this.welcomeMessage,
                        { fill: '#fff' });
   }
 
