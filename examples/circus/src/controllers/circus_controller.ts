@@ -15,9 +15,11 @@ export class CircusController extends Controller {
   public prepareCannon = (cannon: Cannon, trampoline: Trampoline) => {
     this.cannon = cannon;
 
-    this.playerKeysView.rotateCannon = this.rotateCannon;
-    this.playerKeysView.rotateCannonStop = this.rotateCannonStop;
-    this.playerKeysView.launchHuman = this.launchHuman;
+    this.playerKeysView.rotateCannon.subscribe(this.rotateCannon);
+
+    this.playerKeysView.rotateCannonStop.subscribe(this.rotateCannonStop);
+    this.playerKeysView.launchHuman.subscribe(this.launchHuman);
+
     this.playerKeysView.show();
 
     this.circusView.cannon = this.cannon;
@@ -26,16 +28,16 @@ export class CircusController extends Controller {
     this.circusView.show();
   }
 
-  public rotateCannon = (direction: string) => {
+  private rotateCannon = (direction: string) => {
     if (direction == 'clockwise') this.cannon.rotateClockwise();
     else this.cannon.rotateCounterclockwise();
   }
 
-  public rotateCannonStop = () => {
+  private rotateCannonStop = () => {
     this.cannon.rotateStop();
   }
 
-  public launchHuman = () => {
+  private launchHuman = () => {
     this.cannon.launchHuman();
   }
 }

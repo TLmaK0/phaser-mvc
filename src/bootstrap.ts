@@ -16,12 +16,12 @@ export class Bootstrap {
 
   public game: Phaser.Game;
 
-  public static worldConfiguration = {
-    bounds {
+  public static worldConfiguration: any = {
+    bounds: {
       width: 1920,
       height: 1080
     },
-    material {
+    material: {
       restitution: 0
     }
   }

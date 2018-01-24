@@ -11,29 +11,20 @@ import { Observable, Observer } from '@reactivex/rxjs';
 export function BodyProperty(target: any, key: string): void;
 
 /**
-    */
-/** Bootstrap for the phaser-mvc.
-    * Useage:
-    * import { FrameController } from 'phaser-mvc';
-    * import { LandEditorController } from 'phaser-mvc';
-    * window.onload = () => {
-    * const boot = new Bootstrap();
-    * boot.addController('FrameController', FrameController);
-    */
+  */
 export class Bootstrap {
-        width: number;
-        height: number;
-        game: Phaser.Game;
-        static readonly instance: Bootstrap;
-        static onInit: AsyncSubject<Bootstrap>;
-        constructor(width?: number, height?: number, worldMaterialOptions?: any);
-        static preload(preload: (game: Phaser.Game) => void): void;
-        static run(defaultAction: () => void): void;
-        preload: () => void;
-        create: () => void;
-        update: () => void;
-        registerView(view: View): void;
-        createBody(physicBody: PhysicBody): Phaser.Physics.P2.Body;
+    game: Phaser.Game;
+    static worldConfiguration: any;
+    static readonly instance: Bootstrap;
+    static onInit: AsyncSubject<Bootstrap>;
+    constructor();
+    static preload(preload: (game: Phaser.Game) => void): void;
+    static run(defaultAction: () => void): void;
+    preload: () => void;
+    create: () => void;
+    update: () => void;
+    registerView(view: View): void;
+    createBody(physicBody: PhysicBody): Phaser.Physics.P2.Body;
 }
 
 /**
