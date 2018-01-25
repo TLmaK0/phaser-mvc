@@ -52,6 +52,12 @@ export abstract class PhysicBody {
     getPhysicsConfiguration(): any;
 }
 
+export class ViewNotifier<T> {
+    constructor();
+    subscribe(observer: (t: T) => void): void;
+    publish(value?: T): void;
+}
+
 /**
     * Adds a component to the view and other view components
     */

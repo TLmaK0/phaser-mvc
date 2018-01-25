@@ -14,12 +14,9 @@ export class CircusController extends Controller {
 
   public prepareCannon = (cannon: Cannon, trampoline: Trampoline) => {
     this.cannon = cannon;
-
     this.playerKeysView.rotateCannon.subscribe(this.rotateCannon);
-
     this.playerKeysView.rotateCannonStop.subscribe(this.rotateCannonStop);
     this.playerKeysView.launchHuman.subscribe(this.launchHuman);
-
     this.playerKeysView.show();
 
     this.circusView.cannon = this.cannon;
