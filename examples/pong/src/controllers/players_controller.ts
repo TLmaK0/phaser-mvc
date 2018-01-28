@@ -11,20 +11,20 @@ export class PlayersController extends Controller {
   public preparePlayers = (pong: Pong) => {
     this.pong = pong;
     this.playersView.pong = this.pong;
-    this.playersKeyboardView.movePlayer = this.movePlayer;
-    this.playersKeyboardView.stopPlayer = this.stopPlayer;
+    this.playersKeyboardView.onMovePlayer.subscribe(this.movePlayer);
+    this.playersKeyboardView.onStopPlayer.subscribe(this.stopPlayer);
 
     this.playersView.show();
     this.playersKeyboardView.show();
   }
 
-  public movePlayer = (playerId: number, direction: string) => {
-    switch (direction) {
+  public movePlayer = (move: [number, string]) => {
+    switch (move[0]) {
       case 'up':
-        this.pong.movePlayerUp(playerId);
+        this.pong.movePlayerUp(move[1]);
         break;
       case 'down':
-        this.pong.movePlayerDown(playerId);
+        this.pong.movePlayerDown(move[1]);
         break;
       default:
         break;

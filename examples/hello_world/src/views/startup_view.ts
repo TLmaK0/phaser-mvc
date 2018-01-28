@@ -13,12 +13,4 @@ export class StartupView extends View {
                        this.welcomeMessage,
                        { fill: '#fff' });
   }
-
-  public refresh() {
-    //empty
-  }
-
-  public update() {
-    //empty
-  }
 }

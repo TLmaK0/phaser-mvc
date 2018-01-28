@@ -4,13 +4,18 @@ import { Cannon } from '../models/cannon';
 import { Trampoline } from '../models/trampoline';
 import { PlayerKeysView } from '../views/player_keys_view';
 
+import { Inject } from 'typescript-ioc';
+
 /**
  * Circus controller
  */
 export class CircusController extends Controller {
-  circusView = new CircusView();
-  playerKeysView = new PlayerKeysView();
   cannon: Cannon;
+
+  constructor(@Inject private circusView: CircusView,
+              @Inject private playerKeysView: PlayerKeysView){
+    super();
+  }
 
   public prepareCannon = (cannon: Cannon, trampoline: Trampoline) => {
     this.cannon = cannon;
