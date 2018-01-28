@@ -25,9 +25,10 @@ export class FieldView extends View {
   private failEffect: Phaser.Sound;
   private lastSpeed: number;
   private lastSlope: number;
+  public pong: Pong;
 
   public create(componentAdder: ViewComponentAdder) {
-    const bounds = (<Pong>this.model.pong).bounds;
+    const bounds = this.pong.bounds;
     this.scoreboard = componentAdder.addComponent(new Scoreboard(bounds));
     this.createNet();
     this.ball = this.game.add.graphics(0, 0);
@@ -36,10 +37,9 @@ export class FieldView extends View {
   }
 
   public updateOnModelChange(watchFactory: WatchFactory){
-    const pong = <Pong>this.model.pong;
-    watchFactory.create<[number, number]>(() => [pong.ball.posX, pong.ball.posY]).subscribe(this.updateBall);
-    watchFactory.create<Score>(() => (<Pong>this.model.pong).score).subscribe(this.updateScore);
-    watchFactory.create<[number, number]>(() => [pong.ball.slope, pong.ball.speed]).subscribe(this.bounceBall);
+    watchFactory.create<[number, number]>(() => [this.pong.ball.posX, this.pong.ball.posY]).subscribe(this.updateBall);
+    watchFactory.create<Score>(() => this.pong.score).subscribe(this.updateScore);
+    watchFactory.create<[number, number]>(() => [this.pong.ball.slope, this.pong.ball.speed]).subscribe(this.bounceBall);
   }
 
   private bounceBall = (_slopeSpeed: [number, number]) => {
@@ -57,7 +57,7 @@ export class FieldView extends View {
   }
 
   private createNet() {
-    const bounds = (<Pong>this.model.pong).bounds;
+    const bounds = this.pong.bounds;
     for (let y = 0; y < bounds[1]; y += 40) {
       this.drawVerticalLine(this.game.add.graphics(0, 0), bounds[0] / 2, y, 20);
     }

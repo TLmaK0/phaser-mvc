@@ -5,6 +5,8 @@ import { View, ViewComponentAdder, WatchFactory } from 'phaser-mvc';
  */
 export class PlayersKeyboardView extends View {
   private watchFactory: WatchFactory;
+  onMovePlayer: ViewNotifier<[number, string]> = new ViewNotifier<[number, string]>();
+  onStopPlayer: ViewNotifier<number> = new ViewNotifier<numver>();
 
   public updateOnModelChange(watchFactory: WatchFactory){
     this.watchFactory = watchFactory;
@@ -14,8 +16,8 @@ export class PlayersKeyboardView extends View {
 
   private watchKeyPlayer = (playerKeyPressed: [number, boolean, boolean]) => {
     if (playerKeyPressed[1] || playerKeyPressed[2]) {
-      this.movePlayer(playerKeyPressed[0], playerKeyPressed[1] ? 'up' : 'down');
-    } else this.stopPlayer(playerKeyPressed[0]);
+      this.onMovePlayer.publish([playerKeyPressed[0], playerKeyPressed[1] ? 'up' : 'down']);
+    } else this.onStopPlayer.publish(playerKeyPressed[0]);
   }
 
   private watchForKeys(playerId: number, keys: number[]){
@@ -24,13 +26,5 @@ export class PlayersKeyboardView extends View {
       this.game.input.keyboard.isDown(keys[0]),
       this.game.input.keyboard.isDown(keys[1])
     ]).subscribe(this.watchKeyPlayer);
-  }
-
-  private movePlayer(playerId: number, direction: string){
-    this.goTo('PlayersController', 'movePlayer', { player: playerId, direction: direction });
-  }
-
-  private stopPlayer(playerId: number){
-    this.goTo('PlayersController', 'stopPlayer', { player: playerId });
   }
 }

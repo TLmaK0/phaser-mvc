@@ -9,6 +9,8 @@
     "strictNullChecks": true,
     "noUnusedParameters": true,
     "moduleResolution": "node",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   }
 }

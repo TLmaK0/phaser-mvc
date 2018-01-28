@@ -1,34 +1,45 @@
-import { Controller, IActionParams, IViewMap } from 'phaser-mvc';
+import { Controller } from 'phaser-mvc';
 import { CircusView } from '../views/circus_view';
 import { Cannon } from '../models/cannon';
+import { Trampoline } from '../models/trampoline';
+import { PlayerKeysView } from '../views/player_keys_view';
+
+import { Inject } from 'typescript-ioc';
 
 /**
- * Game controller
+ * Circus controller
  */
 export class CircusController extends Controller {
-  public views: IViewMap = {
-    cannon: new CircusView()
-  };
+  cannon: Cannon;
 
-  public prepareCannon = (params: IActionParams) => {
-    this.model.cannon = params.cannon;
-    this.model.trampoline = params.trampoline;
-    this.render(this.views.cannon);
+  constructor(@Inject private circusView: CircusView,
+              @Inject private playerKeysView: PlayerKeysView){
+    super();
   }
 
-  public rotateCannon = (params: IActionParams) => {
-    const cannon = <Cannon>this.model.cannon;
-    if (params.direction == 'clockwise') cannon.rotateClockwise();
-    else cannon.rotateCounterclockwise();
+  public prepareCannon = (cannon: Cannon, trampoline: Trampoline) => {
+    this.cannon = cannon;
+    this.playerKeysView.rotateCannon.subscribe(this.rotateCannon);
+    this.playerKeysView.rotateCannonStop.subscribe(this.rotateCannonStop);
+    this.playerKeysView.launchHuman.subscribe(this.launchHuman);
+    this.playerKeysView.show();
+
+    this.circusView.cannon = this.cannon;
+    this.circusView.trampoline = trampoline;
+    this.circusView.human = cannon.human;
+    this.circusView.show();
   }
 
-  public rotateCannonStop = (_params: IActionParams) => {
-    const cannon = <Cannon>this.model.cannon;
-    cannon.rotateStop();
+  private rotateCannon = (direction: string) => {
+    if (direction == 'clockwise') this.cannon.rotateClockwise();
+    else this.cannon.rotateCounterclockwise();
   }
 
-  public launchHuman = (_params: IActionParams) => {
-    const cannon = <Cannon>this.model.cannon;
-    cannon.launchHuman();
+  private rotateCannonStop = () => {
+    this.cannon.rotateStop();
+  }
+
+  private launchHuman = () => {
+    this.cannon.launchHuman();
   }
 }

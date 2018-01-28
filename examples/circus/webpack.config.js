@@ -24,6 +24,9 @@ module.exports = {
       { test: /\.(wav|mp3|ogg)$/, loader: "file-loader?name=audio/[name].[ext]?[hash]" }
     ]
   },
+  node: {
+    fs: "empty"
+  },
   devtool: "source-map",
   plugins: [
     new HtmlWebpackPlugin({

@@ -20,17 +20,13 @@ export class CircusView extends View {
   private cannonSprite: Phaser.Sprite;
   private humanSprite: Phaser.Sprite;
 
-  private cannon: Cannon;
-  private human: Human;
+  public cannon: Cannon;
+  public human: Human;
+  public trampoline: Trampoline;
 
   public create(_componentAdder: ViewComponentAdder) {
-    this.cannon = <Cannon>this.model.cannon;
-    this.human = this.cannon.human;
-    const trampoline = <Trampoline>this.model.trampoline;
-
-    const trampolineSprite = this.game.add.sprite(trampoline.x, trampoline.y, 'trampoline');
+    const trampolineSprite = this.game.add.sprite(this.trampoline.x, this.trampoline.y, 'trampoline');
     trampolineSprite.scale.setTo(0.5, 0.5);
-
     this.humanSprite = this.game.add.sprite(this.human.x, this.human.y, 'human');
     this.humanSprite.scale.setTo(0.5, 0.5);
     this.humanSprite.visible = false;
@@ -45,17 +41,20 @@ export class CircusView extends View {
   public updateOnModelChange(watchFactory: WatchFactory){
     watchFactory.create<number>(() => this.cannon.angle).subscribe(this.rotateCannon);
     watchFactory.create<boolean>(() => this.cannon.hasHuman()).subscribe(this.hideHuman);
-    watchFactory.create<Human>(() => this.human).subscribe(this.moveHuman);
+  }
+
+  public update(){
+    this.moveHuman();
   }
 
   private rotateCannon = (angle: number) => {
     this.cannonSprite.angle = angle;
   }
 
-  private moveHuman = (human: Human) => {
-    this.humanSprite.angle = human.angle;
-    this.humanSprite.x = human.x;
-    this.humanSprite.y = human.y;
+  private moveHuman = () => {
+    this.humanSprite.angle = this.human.angle;
+    this.humanSprite.x = this.human.x;
+    this.humanSprite.y = this.human.y;
   }
 
   private hideHuman = (hide: boolean) => {

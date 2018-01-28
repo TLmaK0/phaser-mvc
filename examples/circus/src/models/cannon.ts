@@ -5,9 +5,9 @@ export class Cannon {
   public y: number;
   public angle: number = -45;
 
-  private cannonUpdateTimer: NodeJS.Timer;
+  private cannonUpdateTimer: number;
 
-  private _human: Human;
+  private _human: Human | any;
   private _humanLaunched: boolean = false;
 
   public insertHuman(human: Human){

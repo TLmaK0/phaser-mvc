@@ -1,7 +1,6 @@
 import * as Phaser from 'phaser-ce';
 
-import { IActionParams } from './i_action_params';
-import { IModel } from './i_model';
+import { Bootstrap } from './bootstrap';
 import { WatchModel } from './watch_model';
 import { WatchFactory } from './watch_factory';
 
@@ -24,11 +23,11 @@ export class ViewComponentAdder {
  */
 export abstract class View {
   protected components: ViewComponent[] = [];
-  protected initiated: boolean = false;
-  private _game: Phaser.Game;
-  private _model: IModel;
-  private _goTo: (controllerName: string, controllerAction: string, params: IActionParams) => void;
   private watchFactory: WatchFactory = new WatchFactory();
+
+  constructor(private bootstrap: Bootstrap = Bootstrap.instance){
+    bootstrap.registerView(this);
+  }
 
   public refresh() {
     //empty, can be overrided or not
@@ -43,38 +42,24 @@ export abstract class View {
     //empty, can be overrided or not
   }
 
-  public init(game: Phaser.Game, model: IModel, goTo: (controllerName: string, controllerAction: string, params: IActionParams) => void) {
-    if (!this.initiated) {
-      this._game = game;
-      this._model = model;
-      this._goTo = goTo;
-      this.createView();
-      this.initiated = true;
-    }
+  public show() {
+    this.createView();
   }
 
-  get game(): Phaser.Game { return this._game; }
+  get game(): Phaser.Game { return this.bootstrap.game; }
 
-  get model(): IModel { return this._model; }
-
-  public createView() {
+  private createView() {
     const componentAdder = new ViewComponentAdder(this.components, this);
     this.create(componentAdder);
     this.updateOnModelChange(this.watchFactory);
   }
 
   public updateView() {
-    if (!this.initiated) return;
     this.checkWatchModels();
     this.update();
     for (const component of this.components) {
       component.updateComponent();
     }
-  }
-
-  public refreshView() {
-    if (!this.initiated) throw EvalError('View is not rendered please render it before refresh.');
-    this.refresh();
   }
 
   public updateOnModelChange(_watchFactory: WatchFactory){
@@ -85,10 +70,6 @@ export abstract class View {
     for(const watchModel of this.watchFactory.watchsModel){
       watchModel.observer.next(watchModel.getModel());
     }
-  }
-
-  protected goTo(controllerName: string, controllerAction: string, params: IActionParams): void {
-    this._goTo(controllerName, controllerAction, params);
   }
 }
 

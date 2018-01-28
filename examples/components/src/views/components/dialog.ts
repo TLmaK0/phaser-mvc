@@ -4,6 +4,7 @@ import { Bootstrap } from 'phaser-mvc';
 const dialog = require('../../assets/images/dialog.png');
 const close_button = require('../../assets/images/close_button.png');
 
+console.log(Bootstrap);
 Bootstrap.preload((game: Phaser.Game) => {
   game.load.image('dialog', dialog);
   game.load.image('close_button', close_button);
@@ -12,7 +13,7 @@ Bootstrap.preload((game: Phaser.Game) => {
 export class Dialog extends ViewComponent {
   private group: Phaser.Group;
 
-  constructor(private text: string, private onClose: () => void){
+  constructor(private text: string){
     super();
   };
 

@@ -9,6 +9,7 @@ import * as _ from 'lodash';
  */
 export class PlayersView extends View {
   private players: Phaser.Graphics[] = [];
+  public pong: Pong;
 
   public create(_componentAdder: ViewComponentAdder) {
     this.players.push(this.game.add.graphics(0, 0));
@@ -16,7 +17,7 @@ export class PlayersView extends View {
   }
 
   public updateOnModelChange(watchFactory: WatchFactory){
-    watchFactory.create<Player[]>(() => (<Pong>this.model.pong).players).subscribe(this.movePlayers);
+    watchFactory.create<Player[]>(() => this.pong.players).subscribe(this.movePlayers);
   }
 
   public update(){
