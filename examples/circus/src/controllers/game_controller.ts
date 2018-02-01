@@ -7,12 +7,14 @@ import { Container, Inject } from 'typescript-ioc';
  * Game controller
  */
 export class GameController extends Controller {
-  constructor(@Inject private circus: Circus,
-              @Inject private circusController: CircusController){
+  circus: Circus;
+
+  constructor(@Inject private circusController: CircusController){
     super();
   }
 
   public startGame = () => {
+    this.circus = new Circus();
     this.circusController.prepareCannon(this.circus.cannon,
                                         this.circus.trampoline);
   }

@@ -11,9 +11,9 @@ export class Cannon {
   private _humanLaunched: boolean = false;
 
   public insertHuman(human: Human){
-    human.x = this.x - 33;
-    human.y = this.y;
-    human.angle = this.angle;
+    human.body.x = this.x - 33;
+    human.body.y = this.y;
+    human.body.angle = this.angle;
     this._human = human;
   }
 
@@ -44,8 +44,8 @@ export class Cannon {
   public launchHuman(){
     if (!this._human) return;
     const angle =  this.angle * (Math.PI / 180);
-    this._human.velocity.x = Math.cos(angle) * 300;
-    this._human.velocity.y = Math.sin(angle) * 300;
+    this._human.body.velocity.x = Math.cos(angle) * 300;
+    this._human.body.velocity.y = Math.sin(angle) * 300;
     this._human = null;
   }
 

@@ -1,16 +1,14 @@
-import * as Phaser from 'phaser-ce';
-
-import { Bootstrap } from './bootstrap';
+import { Witcase } from './witcase';
 import { WatchModel } from './watch_model';
 import { WatchFactory } from './watch_factory';
 
 /**
  * Adds a component to the view and other view components
  */
-export class ViewComponentAdder {
-  constructor(private components: ViewComponent[], private view: View) {}
+export class ViewComponentAdder<T> {
+  constructor(private components: ViewComponent<T>[], private view: View<T>) {}
 
-  public addComponent<T extends ViewComponent>(component: T): T {
+  public addComponent<S extends ViewComponent<T>>(component: S): S {
     this.components.push(component);
     component.createComponent(this, this.view);
 
@@ -21,18 +19,16 @@ export class ViewComponentAdder {
 /**
  * Input and ouput for the application
  */
-export abstract class View {
-  protected components: ViewComponent[] = [];
+export abstract class View<T> {
+  protected components: ViewComponent<T>[] = [];
   private watchFactory: WatchFactory = new WatchFactory();
 
-  constructor(private bootstrap: Bootstrap = Bootstrap.instance){
-    bootstrap.registerView(this);
+  //TODO: we should inject with typescript-ioc
+  constructor(private witcase: Witcase<T> = Witcase.current){
+    this.witcase.registerView(this);
   }
 
-  public refresh() {
-    //empty, can be overrided or not
-  }
-  public create(_componentAdder: ViewComponentAdder) {
+  public create(_componentAdder: ViewComponentAdder<T>) {
     //empty, can be overrided or not
   }
   public preload() {
@@ -41,12 +37,22 @@ export abstract class View {
   public update() {
     //empty, can be overrided or not
   }
+  public render() {
+    //empty, can be overrided or not
+  }
 
   public show() {
     this.createView();
   }
 
-  get game(): Phaser.Game { return this.bootstrap.game; }
+  get engine(): T { return this.witcase.engine; }
+
+  public preloadView() {
+    this.preload();
+    for (const component of this.components) {
+      component.preloadComponent();
+    }
+  }
 
   private createView() {
     const componentAdder = new ViewComponentAdder(this.components, this);
@@ -59,6 +65,13 @@ export abstract class View {
     this.update();
     for (const component of this.components) {
       component.updateComponent();
+    }
+  }
+
+  public renderView() {
+    this.render();
+    for (const component of this.components) {
+      component.renderComponent();
     }
   }
 
@@ -76,11 +89,15 @@ export abstract class View {
 /**
  * Component to be showed in view
  */
-export abstract class ViewComponent {
-  public view: View;
-  protected components: ViewComponent[] = [];
+export abstract class ViewComponent<T> {
+  public view: View<T>;
+  protected components: ViewComponent<T>[] = [];
 
-  public create(_componentAdder: ViewComponentAdder): void {
+  public preload(): void {
+    //empty, can be overrided or not
+  }
+
+  public create(_componentAdder: ViewComponentAdder<T>): void {
     //empty, can be overrided or not
   }
 
@@ -88,7 +105,18 @@ export abstract class ViewComponent {
     //empty, can be overrided or not
   }
 
-  public createComponent(componentAdder: ViewComponentAdder, view: View): void {
+  public render(): void {
+    //empty, can be overrided or not
+  }
+
+  public preloadComponent(): void {
+    this.preload();
+    for (const component of this.components) {
+      component.preloadComponent();
+    }
+  }
+
+  public createComponent(componentAdder: ViewComponentAdder<T>, view: View<T>): void {
     this.view = view;
     this.create(componentAdder);
     for (const component of this.components) {
@@ -103,7 +131,14 @@ export abstract class ViewComponent {
     }
   }
 
-  protected get game(): Phaser.Game {
-    return this.view.game;
+  public renderComponent(): void {
+    this.render();
+    for (const component of this.components) {
+      component.renderComponent();
+    }
+  }
+
+  protected get engine(): T {
+    return this.view.engine;
   }
 }
