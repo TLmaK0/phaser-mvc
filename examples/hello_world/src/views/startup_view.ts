@@ -6,7 +6,7 @@ import { View, ViewComponentAdder } from 'phaser-mvc';
 export class StartupView extends View<Phaser.Game> {
   public welcomeMessage: string;
 
-  public create(_componentAdder: ViewComponentAdder<Phaser.Game>) {
+  public create() {
     this.engine.add.text(100,
                        100,
                        this.welcomeMessage,
