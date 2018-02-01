@@ -19,12 +19,12 @@ export class PlayersController extends Controller {
   }
 
   public movePlayer = (move: [number, string]) => {
-    switch (move[0]) {
+    switch (move[1]) {
       case 'up':
-        this.pong.movePlayerUp(move[1]);
+        this.pong.movePlayerUp(move[0]);
         break;
       case 'down':
-        this.pong.movePlayerDown(move[1]);
+        this.pong.movePlayerDown(move[0]);
         break;
       default:
         break;

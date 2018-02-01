@@ -1,12 +1,12 @@
-import { View, ViewComponentAdder, WatchFactory } from 'phaser-mvc';
+import { View, ViewComponentAdder, WatchFactory, ViewNotifier } from 'phaser-mvc';
 
 /**
  * Players View
  */
-export class PlayersKeyboardView extends View {
+export class PlayersKeyboardView extends View<Phaser.Game> {
   private watchFactory: WatchFactory;
   onMovePlayer: ViewNotifier<[number, string]> = new ViewNotifier<[number, string]>();
-  onStopPlayer: ViewNotifier<number> = new ViewNotifier<numver>();
+  onStopPlayer: ViewNotifier<number> = new ViewNotifier<number>();
 
   public updateOnModelChange(watchFactory: WatchFactory){
     this.watchFactory = watchFactory;
@@ -23,8 +23,8 @@ export class PlayersKeyboardView extends View {
   private watchForKeys(playerId: number, keys: number[]){
     this.watchFactory.create<[number, boolean, boolean]>(() => [
       playerId,
-      this.game.input.keyboard.isDown(keys[0]),
-      this.game.input.keyboard.isDown(keys[1])
+      this.engine.input.keyboard.isDown(keys[0]),
+      this.engine.input.keyboard.isDown(keys[1])
     ]).subscribe(this.watchKeyPlayer);
   }
 }

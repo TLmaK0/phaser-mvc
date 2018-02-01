@@ -1,16 +1,9 @@
 import { ViewComponent } from 'phaser-mvc';
-import { Bootstrap } from 'phaser-mvc';
 
 const dialog = require('../../assets/images/dialog.png');
 const close_button = require('../../assets/images/close_button.png');
 
-console.log(Bootstrap);
-Bootstrap.preload((game: Phaser.Game) => {
-  game.load.image('dialog', dialog);
-  game.load.image('close_button', close_button);
-});
-
-export class Dialog extends ViewComponent {
+export class Dialog extends ViewComponent<Phaser.Game> {
   private group: Phaser.Group;
 
   constructor(private text: string){
@@ -18,13 +11,13 @@ export class Dialog extends ViewComponent {
   };
 
   public create() {
-    this.group = this.game.add.group();
+    this.group = this.engine.add.group();
     this.group.visible = false;
-    this.group.add(this.game.add.sprite(100,
+    this.group.add(this.engine.add.sprite(100,
                                         100,
                                         'dialog'));
 
-    const button = this.game.make.button(350,
+    const button = this.engine.make.button(350,
                                          60,
                                          'close_button');
 
@@ -32,7 +25,7 @@ export class Dialog extends ViewComponent {
 
     this.group.add(button);
 
-    this.group.add(this.game.add.text(140,
+    this.group.add(this.engine.add.text(140,
                                       150,
                                       this.text,
                                       { fill: '#000' }))
@@ -44,5 +37,10 @@ export class Dialog extends ViewComponent {
 
   public open() {
     this.group.visible = true;
+  }
+
+  public preload(){
+    this.engine.load.image('dialog', dialog);
+    this.engine.load.image('close_button', close_button);
   }
 }

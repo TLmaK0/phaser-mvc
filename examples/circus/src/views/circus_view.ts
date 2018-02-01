@@ -21,13 +21,13 @@ export class CircusView extends View<Phaser.Game> {
   public human: Human;
   public trampoline: Trampoline;
 
-  public preload(){
+  public preload(_componentAdder: ViewComponentAdder<Phaser.Game>){
     this.engine.load.image('cannon', cannon);
     this.engine.load.image('human', human);
     this.engine.load.image('trampoline', trampoline);
   }
 
-  public create(_componentAdder: ViewComponentAdder<Phaser.Game>) {
+  public create() {
     const trampolineSprite = this.engine.add.sprite(this.trampoline.body.x, this.trampoline.body.y, 'trampoline');
     trampolineSprite.scale.setTo(0.5, 0.5);
     this.humanSprite = this.engine.add.sprite(this.human.body.x, this.human.body.y, 'human');
