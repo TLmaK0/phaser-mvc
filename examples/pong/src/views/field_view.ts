@@ -1,4 +1,4 @@
-import { Bootstrap, View, ViewComponentAdder, WatchFactory  } from 'phaser-mvc';
+import { View, ViewComponentAdder, WatchFactory  } from 'phaser-mvc';
 import { Pong } from '../models/pong';
 import { Ball } from '../models/ball';
 import { Score } from '../models/score';
@@ -7,15 +7,10 @@ import { Scoreboard } from './components/scoreboard';
 const pongWav = require('../assets/audios/pong.wav');
 const failWav = require('../assets/audios/fail.wav');
 
-Bootstrap.preload((game: Phaser.Game) => {
-  game.load.audio('pongWav', pongWav);
-  game.load.audio('failWav', failWav);
-});
-
 /**
  * Field View
  */
-export class FieldView extends View {
+export class FieldView extends View<Phaser.Game> {
   private scorePlayer1: number;
   private scorePlayer2: number;
   private scoreboard: Scoreboard;
@@ -27,13 +22,19 @@ export class FieldView extends View {
   private lastSlope: number;
   public pong: Pong;
 
-  public create(componentAdder: ViewComponentAdder) {
+  public create() {
+    this.createNet();
+    this.ball = this.engine.add.graphics(0, 0);
+    this.pongEffect = this.engine.add.audio('pongWav');
+    this.failEffect = this.engine.add.audio('failWav');
+  }
+
+  public preload(componentAdder: ViewComponentAdder<Phaser.Game>){
+    this.engine.load.audio('pongWav', pongWav);
+    this.engine.load.audio('failWav', failWav);
+
     const bounds = this.pong.bounds;
     this.scoreboard = componentAdder.addComponent(new Scoreboard(bounds));
-    this.createNet();
-    this.ball = this.game.add.graphics(0, 0);
-    this.pongEffect = this.game.add.audio('pongWav');
-    this.failEffect = this.game.add.audio('failWav');
   }
 
   public updateOnModelChange(watchFactory: WatchFactory){
@@ -59,7 +60,7 @@ export class FieldView extends View {
   private createNet() {
     const bounds = this.pong.bounds;
     for (let y = 0; y < bounds[1]; y += 40) {
-      this.drawVerticalLine(this.game.add.graphics(0, 0), bounds[0] / 2, y, 20);
+      this.drawVerticalLine(this.engine.add.graphics(0, 0), bounds[0] / 2, y, 20);
     }
   }
 

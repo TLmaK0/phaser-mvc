@@ -41,8 +41,8 @@ export class ViewComponentAdder<T> {
 export abstract class View<T> {
         protected components: ViewComponent<T>[];
         constructor(witcase?: Witcase<T>);
-        create(_componentAdder: ViewComponentAdder<T>): void;
-        preload(): void;
+        create(): void;
+        preload(_componentAdder: ViewComponentAdder<T>): void;
         update(): void;
         render(): void;
         show(): void;
@@ -58,12 +58,12 @@ export abstract class View<T> {
 export abstract class ViewComponent<T> {
         view: View<T>;
         protected components: ViewComponent<T>[];
-        preload(): void;
-        create(_componentAdder: ViewComponentAdder<T>): void;
+        preload(_componentAdder: ViewComponentAdder<T>, _view: View<T>): void;
+        create(): void;
         update(): void;
         render(): void;
-        preloadComponent(): void;
-        createComponent(componentAdder: ViewComponentAdder<T>, view: View<T>): void;
+        preloadComponent(componentAdder: ViewComponentAdder<T>, view: View<T>): void;
+        createComponent(): void;
         updateComponent(): void;
         renderComponent(): void;
         protected readonly engine: T;

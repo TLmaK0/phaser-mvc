@@ -15,6 +15,9 @@
     "copy-webpack-plugin": "^4.0.1",
     "html-webpack-externals-plugin": "^3.6.0",
     "html-webpack-plugin": "^2.29.0",
+    "phaser-ce": "^2.8.2",
+    "phaser-mvc": "^0.2.1",
+    "pixi": "^0.3.1",
     "source-map-loader": "^0.2.1",
     "ts-loader": "^2.3.1",
     "tslint": "^5.5.0",
@@ -24,10 +27,7 @@
     "tslint-no-circular-imports": "^0.2.1",
     "typescript": "^2.4.2",
     "typings": "^2.1.1",
-    "webpack": "^3.3.0",
-    "phaser-ce": "^2.8.2",
-    "phaser-mvc": "^0.10.0",
-    "pixi": "^0.3.1"
+    "webpack": "^3.3.0"
   },
   "dependencies": {
     "@reactivex/rxjs": "^5.4.2"

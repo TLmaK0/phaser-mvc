@@ -1,4 +1,3 @@
-import { IViewMap } from 'phaser-mvc';
 import { Controller } from 'phaser-mvc';
 import { StartupView } from '../views/startup_view';
 
@@ -10,7 +9,7 @@ export class StartupController extends Controller {
 
   constructor(){
     super();
-    this.startupView = new StartupView(this);
+    this.startupView = new StartupView();
     this.startupView.welcomeMessage = 'Hello world!';
   }
 

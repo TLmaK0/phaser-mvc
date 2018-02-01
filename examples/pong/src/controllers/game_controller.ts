@@ -8,12 +8,17 @@ import { PlayersController } from './players_controller';
  */
 export class GameController extends Controller {
   fieldView: FieldView = new FieldView();
+  pong: Pong;
+
+  constructor(){
+    super();
+    this.pong = new Pong();
+    this.fieldView.pong = this.pong;
+  }
 
   public startGame = () => {
-    const pong = new Pong();
-    this.fieldView.pong = pong;
-    new PlayersController().preparePlayers(pong);
-    pong.startGame();
+    new PlayersController().preparePlayers(this.pong);
+    this.pong.startGame();
     this.fieldView.show();
   }
 }

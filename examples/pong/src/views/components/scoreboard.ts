@@ -1,7 +1,7 @@
 import { ViewComponent, ViewComponentAdder } from 'phaser-mvc';
 import { ScoreNumber } from './score_number';
 
-export class Scoreboard extends ViewComponent {
+export class Scoreboard extends ViewComponent<Phaser.Game> {
   _scorePlayer1: ScoreNumber;
   _scorePlayer2: ScoreNumber;
 
@@ -9,7 +9,7 @@ export class Scoreboard extends ViewComponent {
     super();
   }
 
-  public create(componentAdder: ViewComponentAdder) {
+  public preload(componentAdder: ViewComponentAdder<Phaser.Game>) {
     this._scorePlayer1 = componentAdder.addComponent(new ScoreNumber(300, 50)); 
     this._scorePlayer2 = componentAdder.addComponent(new ScoreNumber(this.bounds[0] - 400, 50)); 
   }

@@ -10,7 +10,7 @@ export class ViewComponentAdder<T> {
 
   public addComponent<S extends ViewComponent<T>>(component: S): S {
     this.components.push(component);
-    component.createComponent(this, this.view);
+    component.preloadComponent(this, this.view);
 
     return component;
   }
@@ -28,10 +28,10 @@ export abstract class View<T> {
     this.witcase.registerView(this);
   }
 
-  public create(_componentAdder: ViewComponentAdder<T>) {
+  public create() {
     //empty, can be overrided or not
   }
-  public preload() {
+  public preload(_componentAdder: ViewComponentAdder<T>) {
     //empty, can be overrided or not
   }
   public update() {
@@ -48,31 +48,34 @@ export abstract class View<T> {
   get engine(): T { return this.witcase.engine; }
 
   public preloadView() {
-    this.preload();
+    const componentAdder = new ViewComponentAdder(this.components, this);
     for (const component of this.components) {
-      component.preloadComponent();
+      component.preloadComponent(componentAdder, this);
     }
+    this.preload(componentAdder);
   }
 
   private createView() {
-    const componentAdder = new ViewComponentAdder(this.components, this);
-    this.create(componentAdder);
+    for (const component of this.components) {
+      component.createComponent();
+    }
+    this.create();
     this.updateOnModelChange(this.watchFactory);
   }
 
   public updateView() {
-    this.checkWatchModels();
-    this.update();
     for (const component of this.components) {
       component.updateComponent();
     }
+    this.checkWatchModels();
+    this.update();
   }
 
   public renderView() {
-    this.render();
     for (const component of this.components) {
       component.renderComponent();
     }
+    this.render();
   }
 
   public updateOnModelChange(_watchFactory: WatchFactory){
@@ -93,11 +96,11 @@ export abstract class ViewComponent<T> {
   public view: View<T>;
   protected components: ViewComponent<T>[] = [];
 
-  public preload(): void {
+  public preload(_componentAdder: ViewComponentAdder<T>, _view: View<T>): void {
     //empty, can be overrided or not
   }
 
-  public create(_componentAdder: ViewComponentAdder<T>): void {
+  public create(): void {
     //empty, can be overrided or not
   }
 
@@ -109,18 +112,18 @@ export abstract class ViewComponent<T> {
     //empty, can be overrided or not
   }
 
-  public preloadComponent(): void {
-    this.preload();
+  public preloadComponent(componentAdder: ViewComponentAdder<T>, view: View<T>): void {
+    this.view = view;
+    this.preload(componentAdder, view);
     for (const component of this.components) {
-      component.preloadComponent();
+      component.preloadComponent(componentAdder, view);
     }
   }
 
-  public createComponent(componentAdder: ViewComponentAdder<T>, view: View<T>): void {
-    this.view = view;
-    this.create(componentAdder);
+  public createComponent(): void {
+    this.create();
     for (const component of this.components) {
-      component.createComponent(componentAdder, view);
+      component.createComponent();
     }
   }
 

@@ -1,7 +1,7 @@
 import { ViewComponent } from 'phaser-mvc';
 import { ViewComponentAdder } from 'phaser-mvc';
 
-export class ScoreNumber extends ViewComponent {
+export class ScoreNumber extends ViewComponent<Phaser.Game> {
   private lines: Phaser.Graphics[] = [];
   private position: Phaser.Point;
   private _value: number;
@@ -12,7 +12,7 @@ export class ScoreNumber extends ViewComponent {
     this.position = new Phaser.Point(origX, origY);
   }
 
-  public create(_componentAdder: ViewComponentAdder) {
+  public create() {
     //upper
     this.lines.push(this.drawLine(0 - this.lineWidth, 0, 100 + this.lineWidth, 0)); // -^ 0
     this.lines.push(this.drawLine(0, 0, 0, 100)); // |< 1
@@ -76,7 +76,7 @@ export class ScoreNumber extends ViewComponent {
 
   private drawLine(origX: number, origY: number, destX: number, destY: number) {
 
-    const line = this.game.add.graphics(0, 0);
+    const line = this.engine.add.graphics(0, 0);
     line.clear();
     line.lineStyle(2 * this.lineWidth, 0xffffff);
     line.moveTo(this.position.x + origX,

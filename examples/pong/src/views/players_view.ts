@@ -7,13 +7,13 @@ import * as _ from 'lodash';
 /**
  * Players View
  */
-export class PlayersView extends View {
+export class PlayersView extends View<Phaser.Game> {
   private players: Phaser.Graphics[] = [];
   public pong: Pong;
 
-  public create(_componentAdder: ViewComponentAdder) {
-    this.players.push(this.game.add.graphics(0, 0));
-    this.players.push(this.game.add.graphics(0, 0));
+  public create() {
+    this.players.push(this.engine.add.graphics(0, 0));
+    this.players.push(this.engine.add.graphics(0, 0));
   }
 
   public updateOnModelChange(watchFactory: WatchFactory){
