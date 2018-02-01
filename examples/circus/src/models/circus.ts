@@ -17,7 +17,7 @@ export class Circus {
     this.cannon.insertHuman(this.human);
 
     this.trampoline = new Trampoline();
-    this.trampoline.x = 300;
-    this.trampoline.y = 650;
+    this.trampoline.body.x = 300;
+    this.trampoline.body.y = 650;
   }
 }

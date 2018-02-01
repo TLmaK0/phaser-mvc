@@ -7,7 +7,6 @@ const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 module.exports = [
   {
     externals: {
-      'phaser-ce': 'phaser-ce',
       '@reactivex/rxjs': '@reactivex/rxjs',
       'lodash': 'lodash'
     },
@@ -20,12 +19,7 @@ module.exports = [
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
-      modules: [ path.join(__dirname, 'node_modules'), path.join(__dirname, 'src') ],
-      alias: {
-        'phaser': path.join(phaserModulePath, 'build/custom/phaser-split.js'),
-        'pixi': path.join(phaserModulePath, 'build/custom/pixi.js'),
-        'p2': path.join(phaserModulePath, 'build/custom/p2.js')
-      }
+      modules: [ path.join(__dirname, 'node_modules'), path.join(__dirname, 'src') ]
     },
     module: {
       loaders: [
@@ -35,7 +29,7 @@ module.exports = [
     devtool: 'inline-source-map',
     plugins: [
       new DtsBundlePlugin(),
-//      new UglifyJSPlugin(),
+      new UglifyJSPlugin(),
     ]
   }
 ];

@@ -1,16 +1,13 @@
-import { PhysicBody } from 'phaser-mvc';
+import * as Phaser from 'phaser-ce';
+import { Witcase } from 'phaser-mvc';
 
-export class Human extends PhysicBody{
-  public velocity: [number, number] = [0, 0];
+export class Human {
+  body: Phaser.Physics.P2.Body;
 
-  protected physics: any = {
-    material: {
-      restitution: 0
-    }
-  };
-
-  public createBody(body: Phaser.Physics.P2.Body){
-    body.addCircle(25, 90, 25);
-    body.addRectangle(75, 30, 35, 30, 0);
+  constructor(){
+    const engine = <Phaser.Game>Witcase.current.engine;
+    const sprite = engine.add.sprite(0,0, null);
+    engine.physics.p2.enable(sprite);
+    this.body = new Phaser.Physics.P2.Body(engine, sprite, 0, 0, 1);
   }
 }

@@ -1,21 +1,23 @@
+import * as Phaser from 'phaser-ce';
+
 import { View, ViewComponentAdder, WatchFactory, ViewNotifier } from 'phaser-mvc';
 
 /**
  * Players Keys View
  */
 
-export class PlayerKeysView extends View {
+export class PlayerKeysView extends View<Phaser.Game> {
   rotateCannon: ViewNotifier<string> = new ViewNotifier<string>();
   rotateCannonStop: ViewNotifier<void> = new ViewNotifier<void>();
   launchHuman: ViewNotifier<void> = new ViewNotifier<void>();
 
   public updateOnModelChange(watchFactory: WatchFactory){
     watchFactory.create<[boolean, boolean]>(() => [
-      this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT),
-      this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)
+      this.engine.input.keyboard.isDown(Phaser.Keyboard.LEFT),
+      this.engine.input.keyboard.isDown(Phaser.Keyboard.RIGHT)
     ]).subscribe(this.moveCannon);
 
-    watchFactory.create<boolean>(() => this.game.input.keyboard.isDown(
+    watchFactory.create<boolean>(() => this.engine.input.keyboard.isDown(
       Phaser.Keyboard.SPACEBAR
     )).subscribe(this.launchHumanNow);
   }

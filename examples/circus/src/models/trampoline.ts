@@ -1,13 +1,13 @@
-import { PhysicBody } from 'phaser-mvc';
+import * as Phaser from 'phaser-ce';
+import { Witcase } from 'phaser-mvc';
 
-export class Trampoline extends PhysicBody {
-  protected physics: any = {
-    material: {
-      restitution: 0.8
-    }
-  };
+export class Trampoline {
+  body: Phaser.Physics.P2.Body;
 
-  public createBody(body: Phaser.Physics.P2.Body){
-    body.addRectangle(210, 10, 110, 30, 0);
+  constructor(){
+    const engine = <Phaser.Game>Witcase.current.engine;
+    const sprite = engine.add.sprite(0,0, null);
+    engine.physics.p2.enable(sprite);
+    this.body = new Phaser.Physics.P2.Body(engine, sprite, 0, 0, 1);
   }
 }
