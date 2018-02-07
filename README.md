@@ -1,4 +1,4 @@
-[Deprecated] Please use more general solution provided by ![Witcase](https://github.com/TLmaK0/phaser-mvc/)
+[Deprecated] Please use more general solution provided by [Witcase](https://github.com/TLmaK0/witcase/)
 
 ## phaser-mvc
 
